@@ -5,6 +5,10 @@ function ProductGrid() {
   const [showCanvasModal, setShowCanvasModal] = useState(false);
   const [showCardsModal, setShowCardsModal] = useState(false);
   const [showVintageModal, setShowVintageModal] = useState(false);
+  // Mini Canvas modal state
+  const [canvasLang, setCanvasLang] = useState({ arabic: false, urdu: false });
+  const [canvasName, setCanvasName] = useState("");
+  const [canvasTheme, setCanvasTheme] = useState("");
   const stickerCategories = [
     "Medical", "Computer Science", "Banking", "Bollywood", "Hollywood", "Customise Your Own"
   ];
@@ -77,14 +81,44 @@ function ProductGrid() {
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full relative border-2 border-emerald-200">
             <button onClick={() => setShowCanvasModal(false)} className="absolute top-2 right-2 text-emerald-600 hover:text-indigo-600 text-2xl font-bold">&times;</button>
-            <h2 className="text-2xl font-bold text-emerald-700 mb-4">Choose Canvas Option</h2>
-            <div className="flex flex-col gap-3">
-              {canvasOptions.map((opt, idx) => (
-                <button key={idx} className="px-4 py-2 bg-emerald-600 text-white rounded hover:bg-indigo-400 transition text-left">
-                  {opt}
-                </button>
-              ))}
-            </div>
+            <h2 className="text-2xl font-bold text-emerald-700 mb-4">Mini Canvas Customization</h2>
+            <form className="flex flex-col gap-4 text-black">
+              <div>
+                <label className="block font-semibold mb-2 text-emerald-700">Choose Language:</label>
+                <div className="flex gap-4">
+                  <label className="flex items-center gap-2">
+                    <input type="checkbox" name="lang-arabic" checked={canvasLang.arabic} onChange={e => setCanvasLang(l => ({ ...l, arabic: e.target.checked }))} /> Arabic
+                  </label>
+                  <label className="flex items-center gap-2">
+                    <input type="checkbox" name="lang-urdu" checked={canvasLang.urdu} onChange={e => setCanvasLang(l => ({ ...l, urdu: e.target.checked }))} /> Urdu
+                  </label>
+                </div>
+              </div>
+              <div>
+                <label className="block font-semibold mb-2 text-emerald-700">Write Your Name (in selected language):</label>
+                <input type="text" className="px-4 py-2 rounded border border-emerald-200 w-full" placeholder="Type your name here..." value={canvasName} onChange={e => setCanvasName(e.target.value)} />
+              </div>
+              <div>
+                <label className="block font-semibold mb-2 text-emerald-700">Canvas Theme:</label>
+                <div className="flex gap-4">
+                  <label className="flex items-center gap-2">
+                    <input type="radio" name="theme" value="black" checked={canvasTheme === 'black'} onChange={e => setCanvasTheme(e.target.value)} /> Black
+                  </label>
+                  <label className="flex items-center gap-2">
+                    <input type="radio" name="theme" value="white" checked={canvasTheme === 'white'} onChange={e => setCanvasTheme(e.target.value)} /> White
+                  </label>
+                  <label className="flex items-center gap-2">
+                    <input type="radio" name="theme" value="multicolor" checked={canvasTheme === 'multicolor'} onChange={e => setCanvasTheme(e.target.value)} /> Multicolor
+                  </label>
+                </div>
+              </div>
+              <div className="text-sm text-slate-700 mt-2">
+                <div><b>Selected Language:</b> {canvasLang.arabic && 'Arabic '}{canvasLang.urdu && 'Urdu '}</div>
+                <div><b>Name:</b> {canvasName}</div>
+                <div><b>Theme:</b> {canvasTheme}</div>
+              </div>
+              <button type="button" className="px-6 py-2 bg-emerald-600 text-white rounded hover:bg-indigo-400 transition">Add to Cart</button>
+            </form>
           </div>
         </div>
       )}
