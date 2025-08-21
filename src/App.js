@@ -45,6 +45,11 @@ function App() {
 
   useEffect(() => {
     localStorage.setItem('darkMode', darkMode);
+    if (darkMode) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
   }, [darkMode]);
 
   const handleProductClick = (product) => setSelectedProduct(product);
@@ -59,12 +64,15 @@ function App() {
   };
   const handleOpenCart = () => setCartOpen(true);
   const handleCloseCart = () => setCartOpen(false);
-  const handleShowOrderForm = () => setShowOrderForm(true);
+  const handleShowOrderForm = () => {
+    setShowOrderForm(true);
+    setCartOpen(false);
+  };
   const handleCloseOrderForm = () => setShowOrderForm(false);
   const toggleDarkMode = () => setDarkMode((prev) => !prev);
 
   return (
-    <div className={`min-h-screen bg-white text-gray-900 transition-colors duration-300${darkMode ? ' dark bg-slate-900 text-white' : ''}`}>
+    <div className="min-h-screen transition-colors duration-300">
       <Navbar onCartClick={handleOpenCart} onContactClick={handleShowOrderForm} darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       <Hero />
       <div className="flex justify-center gap-4 my-6">
@@ -72,7 +80,7 @@ function App() {
         <button className="px-6 py-2 bg-emerald-600 text-white rounded hover:bg-indigo-400 transition" onClick={handleShowOrderForm}>Place an Order</button>
       </div>
       {!showOrderForm && (
-        <ProductGrid products={products} onProductClick={handleProductClick} />
+        <ProductGrid products={products} onProductClick={handleProductClick} onAddToCart={handleAddToCart} />
       )}
       {showOrderForm && <OrderForm onClose={handleCloseOrderForm} />}
       <Footer />
@@ -80,7 +88,7 @@ function App() {
         <ProductDetails product={selectedProduct} onClose={handleCloseDetails} />
       )}
       {cartOpen && (
-        <Cart cartItems={cartItems} onRemove={handleRemoveFromCart} onClose={handleCloseCart} />
+        <Cart cartItems={cartItems} onRemove={handleRemoveFromCart} onClose={handleCloseCart} onCheckout={handleShowOrderForm} />
       )}
     </div>
   );
