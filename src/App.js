@@ -1,12 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import ProductGrid from "./components/ProductGrid";
 import Footer from "./components/Footer";
 import ProductDetails from "./components/ProductDetails";
 import Cart from "./components/Cart";
-import Contact from "./components/Contact";
-import { useState } from "react";
+import OrderForm from "./components/OrderForm";
 
 const products = [
   {
@@ -31,11 +30,22 @@ const products = [
   },
 ];
 
+function getInitialMode() {
+  const saved = localStorage.getItem('darkMode');
+  if (saved !== null) return saved === 'true';
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+
 function App() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [cartOpen, setCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
-  const [showContact, setShowContact] = useState(false);
+  const [showOrderForm, setShowOrderForm] = useState(false);
+  const [darkMode, setDarkMode] = useState(getInitialMode);
+
+  useEffect(() => {
+    localStorage.setItem('darkMode', darkMode);
+  }, [darkMode]);
 
   const handleProductClick = (product) => setSelectedProduct(product);
   const handleCloseDetails = () => setSelectedProduct(null);
@@ -49,21 +59,22 @@ function App() {
   };
   const handleOpenCart = () => setCartOpen(true);
   const handleCloseCart = () => setCartOpen(false);
-  const handleShowContact = () => setShowContact(true);
-  const handleCloseContact = () => setShowContact(false);
+  const handleShowOrderForm = () => setShowOrderForm(true);
+  const handleCloseOrderForm = () => setShowOrderForm(false);
+  const toggleDarkMode = () => setDarkMode((prev) => !prev);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
+    <div className={`min-h-screen bg-white text-gray-900 transition-colors duration-300${darkMode ? ' dark bg-slate-900 text-white' : ''}`}>
+      <Navbar onCartClick={handleOpenCart} onContactClick={handleShowOrderForm} darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       <Hero />
       <div className="flex justify-center gap-4 my-6">
-        <button className="px-6 py-2 bg-pink-500 text-white rounded hover:bg-orange-400 transition" onClick={handleOpenCart}>View Cart ({cartItems.length})</button>
-        <button className="px-6 py-2 bg-yellow-400 text-pink-700 rounded hover:bg-pink-200 transition" onClick={handleShowContact}>Contact Us</button>
+        <button className="px-6 py-2 bg-indigo-600 text-white rounded hover:bg-emerald-400 transition" onClick={handleOpenCart}>View Cart ({cartItems.length})</button>
+        <button className="px-6 py-2 bg-emerald-600 text-white rounded hover:bg-indigo-400 transition" onClick={handleShowOrderForm}>Place an Order</button>
       </div>
-      {!showContact && (
+      {!showOrderForm && (
         <ProductGrid products={products} onProductClick={handleProductClick} />
       )}
-      {showContact && <Contact />}
+      {showOrderForm && <OrderForm onClose={handleCloseOrderForm} />}
       <Footer />
       {selectedProduct && (
         <ProductDetails product={selectedProduct} onClose={handleCloseDetails} />
