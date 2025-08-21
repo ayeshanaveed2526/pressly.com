@@ -18,17 +18,19 @@ const products = [
   },
   {
     name: "Mini Canvas Art",
-    price: "$12.99",
+  price: "800pkr",
+  priceValue: 800,
     image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
   },
   {
     name: "Custom Sticker",
-    price: "$4.99",
+    price: "80pkr",
     image: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
   },
   {
     name: "Inspirational Canvas",
-    price: "$14.99",
+  price: "800pkr",
+  priceValue: 800,
     image: "https://images.unsplash.com/photo-1465101178521-c1a4c8a0a8b7?auto=format&fit=crop&w=400&q=80",
   },
 ];

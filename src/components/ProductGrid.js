@@ -133,7 +133,8 @@ function ProductGrid({ onProductClick, onAddToCart, onStickerCategory }) {
                   const lang = [canvasLang.arabic ? 'Arabic' : '', canvasLang.urdu ? 'Urdu' : ''].filter(Boolean).join(', ');
                   onAddToCart({
                     name: `Mini Canvas (${lang}) - ${canvasName}`,
-                    price: "$12.99",
+                    price: "800pkr",
+                    priceValue: 800,
                     theme: canvasTheme,
                     image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
                   });
