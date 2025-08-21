@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import ProductGrid from "./components/ProductGrid";
+import StickerCategoryPage from "./components/StickerCategoryPage";
+import ReviewsPage from "./components/ReviewsPage";
+import About from "./components/About";
 import Footer from "./components/Footer";
 import ProductDetails from "./components/ProductDetails";
 import Cart from "./components/Cart";
@@ -38,6 +41,7 @@ function getInitialMode() {
 
 function App() {
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedStickerCategory, setSelectedStickerCategory] = useState(null);
   const [cartOpen, setCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [showOrderForm, setShowOrderForm] = useState(false);
@@ -53,6 +57,9 @@ function App() {
   }, [darkMode]);
 
   const handleProductClick = (product) => setSelectedProduct(product);
+  const handleStickerCategoryClick = (category) => {
+    setSelectedStickerCategory(category);
+  };
   const handleCloseDetails = () => setSelectedProduct(null);
   const handleAddToCart = (product) => {
     setCartItems([...cartItems, product]);
@@ -71,19 +78,62 @@ function App() {
   const handleCloseOrderForm = () => setShowOrderForm(false);
   const toggleDarkMode = () => setDarkMode((prev) => !prev);
 
+  // simple hash-based routing
+  const [route, setRoute] = useState(window.location.hash.replace('#','') || '/');
+  useEffect(() => {
+    const onHash = () => setRoute(window.location.hash.replace('#','') || '/');
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+  const navigate = (path) => { window.location.hash = path; setRoute(path); };
+
   return (
     <div className="min-h-screen transition-colors duration-300">
-      <Navbar onCartClick={handleOpenCart} onContactClick={handleShowOrderForm} darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-      <Hero />
-      <div className="flex justify-center gap-4 my-6">
-        <button className="px-6 py-2 bg-indigo-600 text-white rounded hover:bg-emerald-400 transition" onClick={handleOpenCart}>View Cart ({cartItems.length})</button>
-        <button className="px-6 py-2 bg-emerald-600 text-white rounded hover:bg-indigo-400 transition" onClick={handleShowOrderForm}>Place an Order</button>
-      </div>
-      {!showOrderForm && (
-        <ProductGrid products={products} onProductClick={handleProductClick} onAddToCart={handleAddToCart} />
+      <Navbar onCartClick={handleOpenCart} onContactClick={handleShowOrderForm} darkMode={darkMode} toggleDarkMode={toggleDarkMode} navigate={navigate} />
+      {/* route handling */}
+      {route === '/' && (
+        <>
+          <Hero />
+          <div className="flex justify-center gap-4 my-6">
+            <button className="px-6 py-2 bg-indigo-600 text-white rounded hover:bg-emerald-400 transition" onClick={handleOpenCart}>View Cart ({cartItems.length})</button>
+          </div>
+          {!showOrderForm && (
+            <ProductGrid products={products} onProductClick={handleProductClick} onAddToCart={handleAddToCart} onStickerCategory={(cat) => { setSelectedStickerCategory(cat); navigate(`/product/${encodeURIComponent(cat)}`); }} />
+          )}
+          {showOrderForm && <OrderForm onClose={handleCloseOrderForm} cartItems={cartItems} />}
+          <Footer />
+        </>
       )}
-      {showOrderForm && <OrderForm onClose={handleCloseOrderForm} />}
-      <Footer />
+      {route === '/products' && (
+        <>
+          <div className="max-w-6xl mx-auto py-6 px-4">
+            <h2 className="text-2xl font-bold mb-4">Products</h2>
+            <ProductGrid products={products} onProductClick={handleProductClick} onAddToCart={handleAddToCart} onStickerCategory={(cat) => { setSelectedStickerCategory(cat); navigate(`/product/${encodeURIComponent(cat)}`); }} />
+          </div>
+        </>
+      )}
+      {route.startsWith('/product/') && (
+        <StickerCategoryPage category={decodeURIComponent(route.replace('/product/',''))} onBack={() => { setSelectedStickerCategory(null); navigate('/products'); }} onAddToCart={(item) => { handleAddToCart({ name: item.name, price: item.price, priceValue: item.priceValue || 40 }); }} />
+      )}
+      {route === '/cart' && (
+        <div className="max-w-4xl mx-auto py-6 px-4">
+          <h2 className="text-2xl font-bold mb-4">Your Cart</h2>
+          <ProductGrid products={products} onProductClick={handleProductClick} onAddToCart={handleAddToCart} />
+        </div>
+      )}
+      {route === '/reviews' && (
+        <ReviewsPage />
+      )}
+      {route === '/contact' && (
+        <div className="max-w-4xl mx-auto py-6 px-4">
+          <h2 className="text-2xl font-bold mb-4">Contact</h2>
+          <OrderForm onClose={handleCloseOrderForm} cartItems={cartItems} />
+        </div>
+      )}
+      {route === '/about' && (
+        <About />
+      )}
+
       {selectedProduct && (
         <ProductDetails product={selectedProduct} onClose={handleCloseDetails} />
       )}

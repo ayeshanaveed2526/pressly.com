@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function ProductGrid({ onProductClick, onAddToCart }) {
+function ProductGrid({ onProductClick, onAddToCart, onStickerCategory }) {
   const [showStickerModal, setShowStickerModal] = useState(false);
   const [showCanvasModal, setShowCanvasModal] = useState(false);
   const [showCardsModal, setShowCardsModal] = useState(false);
@@ -29,7 +29,7 @@ function ProductGrid({ onProductClick, onAddToCart }) {
         {/* Sticker Choices Grid */}
         <div className="bg-slate-50 rounded-lg shadow-lg overflow-hidden border-2 border-emerald-200 flex flex-col cursor-pointer" onClick={() => setShowStickerModal(true)}>
           <div className="h-36 sm:h-48 flex items-center justify-center bg-gradient-to-r from-indigo-200 to-emerald-100">
-            <span className="text-lg sm:text-2xl font-bold text-indigo-700">Stickers</span>
+            <span className="text-lg sm:text-2xl font-bold text-indigo-700"> Laptop Stickers</span>
           </div>
           <div className="p-3 sm:p-4 text-center text-slate-500 text-sm">Click to choose your sticker category!</div>
         </div>
@@ -37,7 +37,7 @@ function ProductGrid({ onProductClick, onAddToCart }) {
         {/* Mini Canvas Grid */}
         <div className="bg-slate-50 rounded-lg shadow-lg overflow-hidden border-2 border-emerald-200 flex flex-col cursor-pointer" onClick={() => setShowCanvasModal(true)}>
           <div className="h-36 sm:h-48 flex items-center justify-center bg-gradient-to-r from-emerald-200 to-indigo-100">
-            <span className="text-lg sm:text-2xl font-bold text-emerald-700">Mini Canvas</span>
+            <span className="text-lg sm:text-2xl font-bold text-emerald-700">Mini Canvas Names</span>
           </div>
           <div className="p-3 sm:p-4 text-center text-slate-500 text-sm">Click to choose your canvas option!</div>
         </div>
@@ -67,7 +67,15 @@ function ProductGrid({ onProductClick, onAddToCart }) {
             <h2 className="text-2xl font-bold text-indigo-700 mb-4">Choose Sticker Category</h2>
             <div className="flex flex-col gap-3">
               {stickerCategories.map((cat, idx) => (
-                <button key={idx} className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-emerald-400 transition text-left">
+                <button
+                  key={idx}
+                  className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-emerald-400 transition text-left"
+                  onClick={() => {
+                    setShowStickerModal(false);
+                    if (onStickerCategory) return onStickerCategory(cat);
+                    if (onProductClick) return onProductClick(cat);
+                  }}
+                >
                   {cat}
                 </button>
               ))}

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { db } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
 
-function OrderForm({ onClose }) {
+function OrderForm({ onClose, cartItems = [] }) {
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -51,8 +51,17 @@ function OrderForm({ onClose }) {
     setErrorMsg("");
     console.log("Order submit attempted", form);
     try {
+      // compute totals
+      const items = cartItems.map(ci => ({ name: ci.name, price: ci.price || ci.priceValue || ci.price }));
+      const subtotal = cartItems.reduce((sum, it) => sum + (it.priceValue ? Number(it.priceValue) : (typeof it.price === 'string' ? Number(it.price.replace(/[^0-9.]/g,'')) : 0)), 0);
+      const delivery = 100;
+      const total = subtotal + delivery;
       await addDoc(collection(db, "orders"), {
         ...form,
+        cart: items,
+        subtotal,
+        delivery,
+        total,
         createdAt: new Date().toISOString()
       });
       setSubmitted(true);
@@ -76,16 +85,26 @@ function OrderForm({ onClose }) {
             {errorMsg && <div className="text-center text-red-500 mb-2">{errorMsg}</div>}
             <div>
               <h3 className="text-lg font-bold text-indigo-700 mb-2">Order Summary</h3>
-              <ul className="mb-4 text-gray-700">
-                <li><strong>Name:</strong> {form.name}</li>
-                <li><strong>Email:</strong> {form.email}</li>
-                <li><strong>Phone:</strong> {form.phone}</li>
-                <li><strong>Address:</strong> {form.address}</li>
-                <li><strong>Product/Category:</strong> {form.product}</li>
-                <li><strong>Details:</strong> {form.details}</li>
-                <li><strong>Payment:</strong> {form.payment}</li>
-              </ul>
-              <button type="button" className="px-6 py-2 bg-indigo-600 text-white rounded hover:bg-emerald-400 transition w-full mb-2" onClick={() => { alert('Confirm Order clicked!'); console.log('Order submit attempted', form); handleConfirmOrder(); }} disabled={loading}>
+              <div className="mb-3 text-gray-700">
+                <div><strong>Name:</strong> {form.name}</div>
+                <div><strong>Email:</strong> {form.email}</div>
+                <div><strong>Phone:</strong> {form.phone}</div>
+                <div><strong>Address:</strong> {form.address}</div>
+                <div><strong>Payment:</strong> {form.payment}</div>
+              </div>
+              <div className="mb-3">
+                <h4 className="font-semibold">Cart Items</h4>
+                <ul className="text-gray-700 mb-2">
+                  {cartItems.length === 0 && <li className="text-sm">No items in cart</li>}
+                  {cartItems.map((it, i) => (
+                    <li key={i} className="text-sm">{it.name} - {it.price || (it.priceValue ? `${it.priceValue} Rs` : '')}</li>
+                  ))}
+                </ul>
+                <div className="text-sm font-medium text-gray-800">Subtotal: Rs {cartItems.reduce((sum, it) => sum + (it.priceValue ? Number(it.priceValue) : (typeof it.price === 'string' ? Number(it.price.replace(/[^0-9.]/g,'')) : 0)), 0)}</div>
+                <div className="text-sm">Delivery: Rs 100</div>
+                <div className="text-lg font-bold mt-2">Total: Rs {cartItems.reduce((sum, it) => sum + (it.priceValue ? Number(it.priceValue) : (typeof it.price === 'string' ? Number(it.price.replace(/[^0-9.]/g,'')) : 0)), 0) + 100}</div>
+              </div>
+              <button type="button" className="px-6 py-2 bg-indigo-600 text-white rounded hover:bg-emerald-400 transition w-full mb-2" onClick={() => { handleConfirmOrder(); }} disabled={loading}>
                 {loading ? "Submitting..." : "Confirm Order"}
               </button>
               <button className="px-6 py-2 bg-slate-200 text-indigo-700 rounded hover:bg-slate-300 transition w-full" onClick={() => setShowSummary(false)}>Edit Info</button>
