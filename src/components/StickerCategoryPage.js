@@ -27,6 +27,7 @@ export default function StickerCategoryPage({ category, onBack, onAddToCart }) {
   const [bundleSelection, setBundleSelection] = useState([]);
   const [enteredNames, setEnteredNames] = useState({});
   const [addedCustomIds, setAddedCustomIds] = useState([]);
+  const [selectedSeries, setSelectedSeries] = useState(null);
   const sizes = ["2x2 in", "2.5x2.5 in", "3x3 in", "4x3 in"];
   const stickers = Array.from({ length: 20 }).map((_, i) => ({
     id: i + 1,
@@ -40,6 +41,10 @@ export default function StickerCategoryPage({ category, onBack, onAddToCart }) {
     name: `Style ${i + 1}`,
     preview: `Preview ${i + 1}`,
   }));
+  // Hollywood subcategories (series / famous franchises)
+  const hollywoodSeries = [
+    'Marvel', 'Avengers', 'Breaking Bad', 'Better Call Saul', 'Dark', 'Money Heist', 'Squid Game', 'Game of Thrones', 'Friends'
+  ];
 
   return (
     <main className="max-w-6xl mx-auto py-8 px-4">
@@ -55,6 +60,39 @@ export default function StickerCategoryPage({ category, onBack, onAddToCart }) {
           <button onClick={() => { setBundleSelection(stickers.slice(0,4).map(s=>s.id)); setShowBundleModal(true); }} className="px-3 py-1 bg-amber-200 rounded text-sm">Create Bundle</button>
         </div>
       </div>
+
+      {/* Hollywood series subcategories */}
+      {category === 'Hollywood' && !selectedSeries && (
+        <section className="mt-4">
+          <h3 className="text-lg font-bold mb-3">Popular Series & Franchises</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            {hollywoodSeries.map((s) => (
+              <div key={s} onClick={() => setSelectedSeries(s)} className="cursor-pointer bg-white p-4 rounded shadow flex flex-col items-center text-center">
+                <div className="h-24 w-full bg-gray-100 rounded mb-3 flex items-center justify-center text-sm text-gray-500">{s} Art</div>
+                <div className="font-medium text-indigo-700">{s}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* If a series is selected, show stickers for that series */}
+      {category === 'Hollywood' && selectedSeries && (
+        <section className="mt-6">
+          <div className="mb-4 flex items-center justify-between">
+            <div className="text-lg font-bold">{selectedSeries} Stickers</div>
+            <button onClick={() => setSelectedSeries(null)} className="px-3 py-1 bg-slate-200 rounded text-sm">← Back to Series</button>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            {stickers.filter((s)=>true).slice(0,12).map(st => (
+              <StickerCard key={st.id} item={{...st, name: `${selectedSeries} - ${st.name}`}} added={addedIds.includes(st.id)} onAdd={(item) => {
+                if (onAddToCart) onAddToCart({ id: item.id, name: item.name, price: item.price, priceValue: item.priceValue || 40, quantity: 1 });
+                setAddedIds(prev => prev.includes(item.id) ? prev : [...prev, item.id]);
+              }} />
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Show custom-name styles only when in the 'Customise Your Own' category */}
       {category === 'Customise Your Own' ? (
