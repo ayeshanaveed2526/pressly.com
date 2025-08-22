@@ -15,11 +15,13 @@
 }
 
 .site-bg{
-	/* keep the user's provided background image only */
-	background-image: url('./assets/vintagebg.png');
-	background-size: cover;
-	background-position: center center;
-	background-repeat: no-repeat;
+	 /* layered background: a soft cream at the top that fades into the vintage texture below */
+	 /* first layer (on top): vertical gradient from cream to transparent so content at the top reads on cream;
+		 second layer: the vintage texture image */
+	 background-image: linear-gradient(to bottom, #f9f3dc 0%, #f9f3dc 42%, rgba(249,243,220,0.0) 65%), url('./assets/vintagebg.png');
+	 background-size: auto, cover;
+	 background-position: top center, center center;
+	 background-repeat: no-repeat, no-repeat;
 }
 .parchment-bg{
 	/* removed SVG asset reference to avoid build resolution errors; using color fallback */
