@@ -19,7 +19,10 @@ function ProductGrid({ onProductClick, onAddToCart, onStickerCategory }) {
     "Business Card", "Event Invitation", "Custom Greeting Card"
   ];
   const vintageOptions = [
-    "Classic Cream", "Antique Brown", "Handmade Deckle Edge", "Floral Print", "Custom Message Paper"
+    { size: 'A4 (8.27 x 11.69 in)', price: '80 Rs', priceValue: 80, id: 'vintage-a4' },
+    { size: 'A5 (5.83 x 8.27 in)', price: '60 Rs', priceValue: 60, id: 'vintage-a5' },
+    { size: 'Letter (8.5 x 11 in)', price: '90 Rs', priceValue: 90, id: 'vintage-letter' },
+    { size: 'Small Note (4 x 6 in)', price: '40 Rs', priceValue: 40, id: 'vintage-4x6' }
   ];
 
   return (
@@ -85,7 +88,7 @@ function ProductGrid({ onProductClick, onAddToCart, onStickerCategory }) {
       )}
 
       {/* Mini Canvas Modal */}
-      {showCanvasModal && (
+  {showCanvasModal && (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
           <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full relative border-2 border-emerald-200">
             <button onClick={() => setShowCanvasModal(false)} className="absolute top-2 right-2 text-emerald-600 hover:text-indigo-600 text-2xl font-bold">&times;</button>
@@ -125,25 +128,29 @@ function ProductGrid({ onProductClick, onAddToCart, onStickerCategory }) {
                 <div><b>Name:</b> {canvasName}</div>
                 <div><b>Theme:</b> {canvasTheme}</div>
               </div>
-              <button
-                type="button"
-                className="px-6 py-2 bg-emerald-600 text-white rounded hover:bg-indigo-400 transition"
-                onClick={() => {
-                  if (!canvasName || (!canvasLang.arabic && !canvasLang.urdu) || !canvasTheme) return;
-                  const lang = [canvasLang.arabic ? 'Arabic' : '', canvasLang.urdu ? 'Urdu' : ''].filter(Boolean).join(', ');
-                  onAddToCart({
-                    name: `Mini Canvas (${lang}) - ${canvasName}`,
-                    price: "800pkr",
-                    priceValue: 800,
-                    theme: canvasTheme,
-                    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
-                  });
-                  setShowCanvasModal(false);
-                  setCanvasLang({ arabic: false, urdu: false });
-                  setCanvasName("");
-                  setCanvasTheme("");
-                }}
-              >Add to Cart</button>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  className="px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700"
+                  onClick={() => {
+                    if (!canvasName || (!canvasLang.arabic && !canvasLang.urdu) || !canvasTheme) return;
+                    const lang = [canvasLang.arabic ? 'Arabic' : '', canvasLang.urdu ? 'Urdu' : ''].filter(Boolean).join(', ');
+                    onAddToCart({
+                      id: `canvas-${canvasName}-${canvasTheme}`,
+                      name: `Mini Canvas (${lang}) - ${canvasName}`,
+                      price: "800 Rs",
+                      priceValue: 800,
+                      quantity: 1,
+                      theme: canvasTheme,
+                      image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
+                    });
+                    setShowCanvasModal(false);
+                    setCanvasLang({ arabic: false, urdu: false });
+                    setCanvasName("");
+                    setCanvasTheme("");
+                  }}
+                >+</button>
+              </div>
             </form>
           </div>
         </div>
@@ -166,17 +173,24 @@ function ProductGrid({ onProductClick, onAddToCart, onStickerCategory }) {
         </div>
       )}
 
-      {/* Vintage Papers Modal */}
+      {/* Vintage Papers Modal: show sizes, prices and + quantity control */}
       {showVintageModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full relative border-2 border-amber-200">
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-lg p-6 max-w-md w-full relative border-2 border-amber-200">
             <button onClick={() => setShowVintageModal(false)} className="absolute top-2 right-2 text-amber-700 hover:text-yellow-600 text-2xl font-bold">&times;</button>
-            <h2 className="text-2xl font-bold text-amber-700 mb-4">Choose Vintage Paper Style</h2>
-            <div className="flex flex-col gap-3">
-              {vintageOptions.map((opt, idx) => (
-                <button key={idx} className="px-4 py-2 bg-amber-200 text-amber-900 rounded hover:bg-yellow-200 transition text-left">
-                  {opt}
-                </button>
+            <h2 className="text-2xl font-bold text-amber-700 mb-4">Vintage Paper Sizes</h2>
+            <div className="grid gap-3">
+              {vintageOptions.map((opt) => (
+                <div key={opt.id} className="flex items-center justify-between p-3 border rounded bg-amber-50">
+                  <div>
+                    <div className="font-medium text-amber-700">{opt.size}</div>
+                    <div className="text-sm text-amber-900">{opt.price}</div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="text-sm font-semibold">Qty</div>
+                    <button className="px-3 py-1 bg-amber-600 text-white rounded" onClick={() => onAddToCart({ id: opt.id, name: `Vintage Paper - ${opt.size}`, price: opt.price, priceValue: opt.priceValue, quantity: 1 })}>+</button>
+                  </div>
+                </div>
               ))}
             </div>
           </div>

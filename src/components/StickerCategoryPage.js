@@ -56,39 +56,63 @@ export default function StickerCategoryPage({ category, onBack, onAddToCart }) {
         </div>
       </div>
 
-      {/* Custom styles inline grid (replaces main grid when active) */}
-      {/* Always show customise styles grid with inline name input */}
-      <section className="mt-6">
-        <div className="mb-4">
-          <h3 className="text-lg font-bold">Customise your name — choose a style</h3>
-        </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-          {styles.map(st => {
-            const val = enteredNames[st.id] || '';
-            const customId = `custom-${st.id}-${val.trim()}`;
-            const added = addedCustomIds.includes(customId);
-            return (
-              <div key={st.id} className="bg-white p-3 rounded-lg shadow flex flex-col">
-                <div className="h-28 bg-gray-100 rounded flex items-center justify-center text-sm text-gray-500">{st.preview}</div>
-                <div className="mt-3">
-                  <div className="text-sm font-medium text-indigo-700">{st.name}</div>
-                  <div className="text-sm text-emerald-700 font-bold mt-1">100 Rs</div>
-                  <input value={val} onChange={e => setEnteredNames(prev => ({...prev, [st.id]: e.target.value}))} placeholder="Enter name (e.g. Alex)" className="w-full border rounded px-3 py-2 mt-2" />
-                  <div className="mt-2 flex items-center justify-between">
-                    <button disabled={!val.trim() || added} onClick={() => {
-                      const itemName = `${val.trim()} - ${st.name} ${category} Sticker`;
-                      if (onAddToCart) onAddToCart({ name: itemName, price: '100 Rs', priceValue: 100, id: customId, style: st.name });
-                      setAddedCustomIds(prev => prev.includes(customId) ? prev : [...prev, customId]);
-                    }} className={`px-3 py-1 rounded text-white ${(!val.trim() || added) ? 'bg-gray-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700'}`}>
-                      {added ? 'Added ✓' : 'Add to Cart'}
-                    </button>
+      {/* Show custom-name styles only when in the 'Customise Your Own' category */}
+      {category === 'Customise Your Own' ? (
+        <section className="mt-6">
+          <div className="mb-4">
+            <h3 className="text-lg font-bold">Customise your name — choose a style</h3>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            {styles.map(st => {
+              const val = enteredNames[st.id] || '';
+              const customId = `custom-${st.id}-${val.trim()}`;
+              const found = addedCustomIds.find(a => a.id === customId);
+              const qty = found ? found.quantity : 0;
+              return (
+                <div key={st.id} className="bg-white p-3 rounded-lg shadow flex flex-col">
+                  <div className="h-28 bg-gray-100 rounded flex items-center justify-center text-sm text-gray-500">{st.preview}</div>
+                  <div className="mt-3">
+                    <div className="text-sm font-medium text-indigo-700">{st.name}</div>
+                    <div className="text-sm text-emerald-700 font-bold mt-1">100 Rs</div>
+                    <input value={val} onChange={e => setEnteredNames(prev => ({...prev, [st.id]: e.target.value}))} placeholder="Enter name (e.g. Alex)" className="w-full border rounded px-3 py-2 mt-2" />
+                    <div className="mt-2 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="text-sm font-semibold">Qty</div>
+                        <button disabled={!val.trim()} onClick={() => {
+                          if (!val.trim()) return;
+                          const itemName = `${val.trim()} - ${st.name} ${category} Sticker`;
+                          const id = customId;
+                          if (onAddToCart) onAddToCart({ id, name: itemName, price: '100 Rs', priceValue: 100, quantity: 1, style: st.name });
+                          setAddedCustomIds(prev => {
+                            const ex = prev.find(p => p.id === id);
+                            if (ex) return prev.map(p => p.id === id ? { ...p, quantity: p.quantity + 1 } : p);
+                            return [...prev, { id, quantity: 1 }];
+                          });
+                        }} className={`px-3 py-1 rounded text-white ${!val.trim() ? 'bg-gray-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700'}`}>
+                          +
+                        </button>
+                        <div className="px-3 py-1 border rounded text-sm">{qty}</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )
-          })}
-        </div>
-      </section>
+              )
+            })}
+          </div>
+        </section>
+      ) : (
+        /* non-custom categories: show regular sticker grid with Add to Cart buttons */
+        <section className="mt-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            {stickers.map(st => (
+              <StickerCard key={st.id} item={st} added={addedIds.includes(st.id)} onAdd={(item) => {
+                if (onAddToCart) onAddToCart({ id: item.id, name: item.name, price: item.price, priceValue: item.priceValue || 40, quantity: 1 });
+                setAddedIds(prev => prev.includes(item.id) ? prev : [...prev, item.id]);
+              }} />
+            ))}
+          </div>
+        </section>
+      )}
 
   {/* name-input modal removed — inline inputs used instead */}
 

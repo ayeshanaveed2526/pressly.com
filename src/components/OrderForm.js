@@ -51,9 +51,7 @@ function OrderForm({ onClose, cartItems = [] }) {
     setErrorMsg("");
     console.log("Order submit attempted", form);
     try {
-      // compute totals
-      const items = cartItems.map(ci => ({ name: ci.name, price: ci.price || ci.priceValue || ci.price }));
-      const subtotal = cartItems.reduce((sum, it) => sum + (it.priceValue ? Number(it.priceValue) : (typeof it.price === 'string' ? Number(it.price.replace(/[^0-9.]/g,'')) : 0)), 0);
+      // compute totals (use the precomputed values)
       const delivery = 100;
       const total = subtotal + delivery;
       await addDoc(collection(db, "orders"), {
@@ -71,6 +69,14 @@ function OrderForm({ onClose, cartItems = [] }) {
     }
     setLoading(false);
   };
+
+  // compute items and subtotal for UI (and reuse in confirm handler)
+  const items = cartItems.map(ci => ({ name: ci.name, price: ci.price || (ci.priceValue ? `${ci.priceValue} Rs` : ci.price), quantity: ci.quantity || 1 }));
+  const subtotal = cartItems.reduce((sum, it) => {
+    const pv = it.priceValue ? Number(it.priceValue) : (typeof it.price === 'string' ? Number(it.price.replace(/[^0-9.]/g,'')) : 0);
+    const q = it.quantity || 1;
+    return sum + pv * q;
+  }, 0);
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
@@ -100,9 +106,9 @@ function OrderForm({ onClose, cartItems = [] }) {
                     <li key={i} className="text-sm">{it.name} - {it.price || (it.priceValue ? `${it.priceValue} Rs` : '')}</li>
                   ))}
                 </ul>
-                <div className="text-sm font-medium text-gray-800">Subtotal: Rs {cartItems.reduce((sum, it) => sum + (it.priceValue ? Number(it.priceValue) : (typeof it.price === 'string' ? Number(it.price.replace(/[^0-9.]/g,'')) : 0)), 0)}</div>
-                <div className="text-sm">Delivery: Rs 100</div>
-                <div className="text-lg font-bold mt-2">Total: Rs {cartItems.reduce((sum, it) => sum + (it.priceValue ? Number(it.priceValue) : (typeof it.price === 'string' ? Number(it.price.replace(/[^0-9.]/g,'')) : 0)), 0) + 100}</div>
+                  <div className="text-sm font-medium text-gray-800">Subtotal: Rs {subtotal}</div>
+                  <div className="text-sm">Delivery: Rs 100</div>
+                  <div className="text-lg font-bold mt-2">Total: Rs {subtotal + 100}</div>
               </div>
               <button type="button" className="px-6 py-2 bg-indigo-600 text-white rounded hover:bg-emerald-400 transition w-full mb-2" onClick={() => { handleConfirmOrder(); }} disabled={loading}>
                 {loading ? "Submitting..." : "Confirm Order"}

@@ -64,12 +64,32 @@ function App() {
   };
   const handleCloseDetails = () => setSelectedProduct(null);
   const handleAddToCart = (product) => {
-    setCartItems([...cartItems, product]);
+    const addQty = product.quantity || 1;
+    setCartItems(prev => {
+      const idx = prev.findIndex(it => (product.id && it.id === product.id) || it.name === product.name);
+      if (idx !== -1) {
+        const updated = [...prev];
+        updated[idx] = { ...updated[idx], quantity: (updated[idx].quantity || 1) + addQty };
+        return updated;
+      }
+      return [...prev, { ...product, quantity: addQty }];
+    });
     setSelectedProduct(null);
     setCartOpen(true);
   };
   const handleRemoveFromCart = (idx) => {
-    setCartItems(cartItems.filter((_, i) => i !== idx));
+    setCartItems(prev => prev.filter((_, i) => i !== idx));
+  };
+  const handleIncrementCartItem = (idx) => {
+    setCartItems(prev => prev.map((it, i) => i === idx ? { ...it, quantity: (it.quantity || 1) + 1 } : it));
+  };
+  const handleDecrementCartItem = (idx) => {
+    setCartItems(prev => prev.flatMap((it, i) => {
+      if (i !== idx) return it;
+      const q = it.quantity || 1;
+      if (q <= 1) return [];
+      return { ...it, quantity: q - 1 };
+    }));
   };
   const handleOpenCart = () => setCartOpen(true);
   const handleCloseCart = () => setCartOpen(false);
@@ -140,7 +160,7 @@ function App() {
         <ProductDetails product={selectedProduct} onClose={handleCloseDetails} />
       )}
       {cartOpen && (
-        <Cart cartItems={cartItems} onRemove={handleRemoveFromCart} onClose={handleCloseCart} onCheckout={handleShowOrderForm} />
+        <Cart cartItems={cartItems} onRemove={handleRemoveFromCart} onClose={handleCloseCart} onCheckout={handleShowOrderForm} onIncrement={handleIncrementCartItem} onDecrement={handleDecrementCartItem} />
       )}
     </div>
   );
