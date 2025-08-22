@@ -1,9 +1,23 @@
 import React, { useState } from "react";
 
+function slugify(text) {
+  return text.toString().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+}
+
+function themedImage(seriesOrName) {
+  // Use Unsplash dynamic source for a themed/character thumbnail. This returns a relevant photo.
+  // It's a good fallback when you don't have a local image.
+  const q = encodeURIComponent(seriesOrName);
+  return `https://source.unsplash.com/600x360/?${q}`;
+}
+
 function StickerCard({ item, onAdd, added }) {
+  const imgSrc = item.image || (item.series ? `/stickers/${slugify(item.series)}.png` : `/stickers/${slugify(item.name)}.png`);
   return (
     <div className="bg-white rounded-lg shadow p-3 flex flex-col items-start gap-2">
-      <div className="w-full h-28 bg-gray-100 rounded-md flex items-center justify-center text-sm text-gray-500">Image</div>
+      <div className="w-full h-28 bg-gray-100 rounded-md overflow-hidden flex items-center justify-center">
+            <img src={imgSrc} alt={item.name} className="w-full h-full object-cover" onError={(e)=>{ try{ e.target.onerror=null; const altSrc = imgSrc.replace(/\.png$/, '.svg'); e.target.src = altSrc; }catch(err){ e.target.style.display='none'; } }} />
+      </div>
       <div className="w-full">
         <div className="font-semibold text-sm text-indigo-700">{item.name}</div>
         <div className="text-xs text-gray-600">Size: {item.size}</div>
@@ -68,7 +82,9 @@ export default function StickerCategoryPage({ category, onBack, onAddToCart }) {
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {hollywoodSeries.map((s) => (
               <div key={s} onClick={() => setSelectedSeries(s)} className="cursor-pointer bg-white p-4 rounded shadow flex flex-col items-center text-center">
-                <div className="h-24 w-full bg-gray-100 rounded mb-3 flex items-center justify-center text-sm text-gray-500">{s} Art</div>
+                <div className="h-24 w-full bg-gray-100 rounded mb-3 overflow-hidden">
+                  <img src={`/stickers/${slugify(s)}.png`} alt={s} className="w-full h-full object-cover" onError={(e)=>{ try{ e.target.onerror=null; e.target.src=`/stickers/${slugify(s)}.svg`; e.target.onerror = (ev)=>{ ev.target.onerror=null; ev.target.src = themedImage(s); }; }catch(err){ e.target.style.display='none'; } }} />
+                </div>
                 <div className="font-medium text-indigo-700">{s}</div>
               </div>
             ))}
