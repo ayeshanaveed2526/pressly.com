@@ -11,7 +11,7 @@ function Cart({ cartItems, onRemove, onClose, onCheckout, navigate, onIncrement,
   };
 
   const lineTotal = (it) => {
-    const q = it.quantity || 1;
+    const q = it.quantit || 1;
     const pv = it.priceValue ? Number(it.priceValue) : (typeof it.price === 'string' ? Number(it.price.replace(/[^0-9.]/g,'')) : 0);
     return pv * q;
   };
