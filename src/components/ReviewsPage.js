@@ -40,7 +40,7 @@ export default function ReviewsPage() {
 
   return (
     <main className="max-w-4xl mx-auto py-8 px-4">
-      <h2 className="text-2xl font-bold text-indigo-700 mb-4">Reviews</h2>
+  <h2 className="text-2xl font-bold text-vintage mb-4">Reviews</h2>
 
       <section className="mb-6">
         <form onSubmit={handleSubmit} className="bg-white p-4 rounded shadow flex flex-col gap-3">
@@ -53,7 +53,7 @@ export default function ReviewsPage() {
           </div>
           <textarea placeholder="Write a short review" value={comment} onChange={e => setComment(e.target.value)} rows={3} className="px-3 py-2 border rounded" />
           <div className="flex items-center justify-between">
-            <button className="px-4 py-2 bg-indigo-600 text-white rounded">Submit Review</button>
+            <button className="px-4 py-2 btn-vintage">Submit Review</button>
             {saved && <div className="text-sm text-emerald-600">Saved</div>}
           </div>
         </form>

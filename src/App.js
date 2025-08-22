@@ -117,7 +117,7 @@ function App() {
         <>
           <Hero />
           <div className="flex justify-center gap-4 my-6">
-            <button className="px-6 py-2 bg-indigo-600 text-white rounded hover:bg-emerald-400 transition" onClick={handleOpenCart}>View Cart ({cartItems.length})</button>
+            <button className="btn-vintage" onClick={handleOpenCart}>View Cart ({cartItems.length})</button>
           </div>
           {!showOrderForm && (
             <ProductGrid products={products} onProductClick={handleProductClick} onAddToCart={handleAddToCart} onStickerCategory={(cat) => { setSelectedStickerCategory(cat); navigate(`/product/${encodeURIComponent(cat)}`); }} />

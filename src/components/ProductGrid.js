@@ -30,49 +30,49 @@ function ProductGrid({ onProductClick, onAddToCart, onStickerCategory }) {
       <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-indigo-700 mb-6 sm:mb-8 text-center">Shop by Category</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8">
         {/* Sticker Choices Grid */}
-        <div className="bg-slate-50 rounded-lg shadow-lg overflow-hidden border-2 border-emerald-200 flex flex-col cursor-pointer" onClick={() => setShowStickerModal(true)}>
-          <div className="h-36 sm:h-48 flex items-center justify-center bg-gradient-to-r from-indigo-200 to-emerald-100">
-            <span className="text-lg sm:text-2xl font-bold text-indigo-700"> Laptop Stickers</span>
+        <div className="relative rounded-lg overflow-hidden border-2 border-transparent flex flex-col cursor-pointer card-gradient card-animate card-anim-subtle" onClick={() => setShowStickerModal(true)}>
+          <div className="h-36 sm:h-48 flex items-center justify-center">
+            <span className="text-lg sm:text-2xl font-bold card-contrast">Laptop Stickers</span>
           </div>
-          <div className="p-3 sm:p-4 text-center text-slate-500 text-sm">Click to choose your sticker category!</div>
+          <div className="p-3 sm:p-4 text-center card-contrast text-sm">Click to choose your sticker category!</div>
         </div>
 
         {/* Mini Canvas Grid */}
-        <div className="bg-slate-50 rounded-lg shadow-lg overflow-hidden border-2 border-emerald-200 flex flex-col cursor-pointer" onClick={() => setShowCanvasModal(true)}>
-          <div className="h-36 sm:h-48 flex items-center justify-center bg-gradient-to-r from-emerald-200 to-indigo-100">
-            <span className="text-lg sm:text-2xl font-bold text-emerald-700">Mini Canvas Names</span>
+        <div className="relative rounded-lg overflow-hidden border-2 border-transparent flex flex-col cursor-pointer card-gradient card-animate card-anim-subtle" onClick={() => setShowCanvasModal(true)}>
+          <div className="h-36 sm:h-48 flex items-center justify-center">
+            <span className="text-lg sm:text-2xl font-bold card-contrast">Mini Canvas Names</span>
           </div>
-          <div className="p-3 sm:p-4 text-center text-slate-500 text-sm">Click to choose your canvas option!</div>
+          <div className="p-3 sm:p-4 text-center card-contrast text-sm">Click to choose your canvas option!</div>
         </div>
 
         {/* Custom Printing Cards Grid */}
-        <div className="bg-slate-50 rounded-lg shadow-lg overflow-hidden border-2 border-emerald-200 flex flex-col cursor-pointer items-center" onClick={() => setShowCardsModal(true)}>
-          <div className="h-36 sm:h-48 flex items-center justify-center bg-gradient-to-r from-indigo-100 to-emerald-100 w-full">
-            <span className="text-lg sm:text-2xl font-bold text-indigo-700 text-center w-full">Custom Printing Cards</span>
+        <div className="relative rounded-lg overflow-hidden border-2 border-transparent flex flex-col cursor-pointer items-center card-gradient card-animate card-anim-subtle" onClick={() => setShowCardsModal(true)}>
+          <div className="h-36 sm:h-48 flex items-center justify-center w-full">
+            <span className="text-lg sm:text-2xl font-bold card-contrast text-center w-full">Custom Printing Cards</span>
           </div>
-          <div className="p-3 sm:p-4 text-center text-slate-500 text-sm w-full">Click to choose your card type!</div>
+          <div className="p-3 sm:p-4 text-center card-contrast text-sm w-full">Click to choose your card type!</div>
         </div>
 
         {/* Vintage Papers for Letters Grid */}
-        <div className="bg-slate-50 rounded-lg shadow-lg overflow-hidden border-2 border-emerald-200 flex flex-col cursor-pointer" onClick={() => setShowVintageModal(true)}>
-          <div className="h-36 sm:h-48 flex items-center justify-center bg-gradient-to-r from-yellow-100 to-amber-200">
-            <span className="text-lg sm:text-2xl font-bold text-amber-700">Vintage Papers</span>
+        <div className="relative rounded-lg overflow-hidden border-2 border-transparent flex flex-col cursor-pointer card-gradient card-animate card-anim-subtle" onClick={() => setShowVintageModal(true)}>
+          <div className="h-36 sm:h-48 flex items-center justify-center">
+            <span className="text-lg sm:text-2xl font-bold card-contrast">Vintage Papers</span>
           </div>
-          <div className="p-3 sm:p-4 text-center text-slate-500 text-sm">Click to choose your vintage paper style!</div>
+          <div className="p-3 sm:p-4 text-center card-contrast text-sm">Click to choose your vintage paper style!</div>
         </div>
       </div>
 
       {/* Sticker Category Modal */}
       {showStickerModal && (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full relative border-2 border-indigo-200">
-            <button onClick={() => setShowStickerModal(false)} className="absolute top-2 right-2 text-indigo-600 hover:text-emerald-600 text-2xl font-bold">&times;</button>
-            <h2 className="text-2xl font-bold text-indigo-700 mb-4">Choose Sticker Category</h2>
+          <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full relative border-2 border-transparent">
+            <button onClick={() => setShowStickerModal(false)} className="absolute top-2 right-2 text-vintage-strong hover-text-vintage text-2xl font-bold">&times;</button>
+            <h2 className="text-2xl font-bold text-vintage mb-4">Choose Sticker Category</h2>
             <div className="flex flex-col gap-3">
               {stickerCategories.map((cat, idx) => (
                 <button
                   key={idx}
-                  className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-emerald-400 transition text-left"
+                  className="px-4 py-2 btn-vintage text-left"
                   onClick={() => {
                     setShowStickerModal(false);
                     if (onStickerCategory) return onStickerCategory(cat);

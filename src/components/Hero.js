@@ -1,13 +1,15 @@
 import React from "react";
+import DecorOverlay from './DecorOverlay';
 
 function Hero() {
   return (
-    <header className="pt-0 pb-12 sm:pb-20">
-  <div className="bg-gradient-to-r from-indigo-600 via-emerald-400 to-slate-400 text-white px-6 sm:px-12 py-8 sm:py-12 shadow-2xl flex flex-col items-center w-full rounded-3xl">
-        <h1 className="text-3xl sm:text-5xl md:text-7xl mb-3 sm:mb-4 drop-shadow-lg font-montserrat">Pressly</h1>
-          <p className="text-sm sm:text-lg md:text-2xl mb-4 sm:mb-6 font-montserrat text-center max-w-xl text-purple-800">CUSTOMIZE YOUR VIBE</p>
-        <p className="text-sm sm:text-lg md:text-2xl mb-4 sm:mb-6 font-montserrat text-center max-w-xl">Premium laptop stickers and mini canvas art for your workspace.</p>
-        <button className="px-6 sm:px-10 py-2 sm:py-4 bg-white text-indigo-600 font-bold rounded-full shadow hover:bg-emerald-100 transition text-sm sm:text-lg font-montserrat dark:bg-slate-900 dark:text-white">Shop Now</button>
+    <header className="pt-0 pb-12 sm:pb-20 parchment-bg relative overflow-hidden">
+      <DecorOverlay />
+      <div className="max-w-4xl mx-auto px-6 sm:px-12 py-12 paper-card relative z-10 text-ink">
+  <h1 className="text-3xl sm:text-5xl md:text-6xl mb-3 sm:mb-4 font-pressly">Pressly</h1>
+        <p className="text-sm sm:text-lg md:text-xl mb-4 sm:mb-6 font-body text-sepia typewriter">CUSTOMIZE YOUR VIBE</p>
+        <p className="text-sm sm:text-lg md:text-xl mb-4 sm:mb-6 font-body text-ink">Premium laptop stickers and mini canvas art for your workspace.</p>
+  <a href="#/products" className="inline-block px-6 sm:px-10 py-2 sm:py-4 btn-vintage text-sm sm:text-lg font-bold rounded-full shadow">Shop Now</a>
       </div>
     </header>
   );

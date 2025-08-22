@@ -3,10 +3,131 @@
 @tailwind utilities;
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Parisienne&display=swap');
+
+:root{
+	--parchment: #f6efd9;
+	--sepia: #a78b6f;
+	--ink: #2d1c0b;
+}
+
+.site-bg{
+	/* prefer the project asset inside src so webpack resolves it during build; using the provided PNG */
+	background-image: url('./assets/vintagebg.png');
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+	/* subtle fallback gradient in case image missing at runtime */
+	background-color: #efe6d6;
+}
+
+.site-bg::before{
+	content: '';
+	position: fixed;
+	inset: 0;
+	background: rgba(245,238,220,0.35);
+	pointer-events: none;
+}
+
+.parchment-bg{
+	/* removed SVG asset reference to avoid build resolution errors; using color fallback */
+	background-color: var(--parchment);
+	background-size: auto;
+	background-repeat: repeat;
+}
+
+.paper-card{
+	background: rgba(255,255,255,0.6);
+	background-blend-mode: multiply;
+	box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+	border-radius: 10px;
+	border: 1px solid rgba(0,0,0,0.05);
+}
+
+/* Brown gradient grid/card styles and animations */
+.grid-brown {
+	background: linear-gradient(135deg, #efe6d6 0%, #d1b89a 50%, #8b5e3c 100%);
+}
+.card-gradient {
+	background: linear-gradient(180deg, rgba(239,230,214,0.95) 0%, rgba(209,184,154,0.9) 50%, rgba(139,94,60,0.95) 100%);
+	color: #2d1c0b;
+}
+.card-contrast {
+	color: #2d1c0b;
+}
+
+@keyframes floatUp {
+	0% { transform: translateY(0px); }
+	50% { transform: translateY(-6px); }
+	100% { transform: translateY(0px); }
+}
+
+.card-animate { transition: transform .22s ease, box-shadow .22s ease; }
+.card-animate:hover { transform: translateY(-8px) scale(1.01); box-shadow: 0 18px 36px rgba(0,0,0,0.18); }
+.card-anim-subtle { animation: floatUp 6s ease-in-out infinite; }
+
+/* slight shimmer overlay for texture */
+.card-gradient::after{
+	content: '';
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+	mix-blend-mode: multiply;
+	border-radius: inherit;
+}
+
+
+.tape-top-left{ position: absolute; left: -14px; top: -14px; width: 120px; transform: rotate(-12deg); }
+.tape-bottom-right{ position: absolute; right: -14px; bottom: -14px; width: 120px; transform: rotate(8deg); }
+
+@keyframes floatButterfly {
+	0% { transform: translateY(0) rotate(-2deg); }
+	50% { transform: translateY(-8px) rotate(2deg); }
+	100% { transform: translateY(0) rotate(-2deg); }
+}
+.butterfly-anim{ animation: floatButterfly 4s ease-in-out infinite; opacity: .9 }
+
+.typewriter { overflow: hidden; white-space: nowrap; border-right: .12em solid rgba(0,0,0,0.8); animation: typing 3s steps(30,end), blink .7s step-end infinite; }
+@keyframes typing { from { width: 0 } to { width: 100% } }
+@keyframes blink { from, to { border-color: transparent } 50% { border-color: rgba(0,0,0,0.8) } }
+
+.fade-in { animation: fadeIn 0.9s ease forwards; opacity: 0 }
+@keyframes fadeIn { to { opacity: 1 } }
+
+.hand-underline { position: relative; }
+.hand-underline::after{ content:''; position:absolute; left:0; bottom:-6px; height:6px; width:100%; background-image: url('./assets/hand-underline.svg'); background-size: contain; pointer-events:none; opacity:0; transition: opacity .25s ease; }
+.hand-underline:hover::after{ opacity:1 }
 
 .font-montserrat {
 	font-family: 'Montserrat', sans-serif;
 }
+
+.font-pressly {
+	/* vintage cursive / sign-painter look */
+	font-family: 'Parisienne', 'Great Vibes', cursive;
+	letter-spacing: 1px;
+	font-weight: 400;
+	text-shadow: 0 1px 0 rgba(0,0,0,0.04);
+}
+
+/* Vintage button and text utilities */
+.btn-vintage {
+	background: linear-gradient(180deg, #b99a77 0%, #8b5e3c 100%);
+	color: #fff;
+	border-radius: 8px;
+	padding: .5rem 1rem;
+	box-shadow: 0 6px 14px rgba(139,94,60,0.18);
+}
+.btn-vintage:hover { transform: translateY(-2px); filter: brightness(1.03); }
+.btn-vintage-subtle { background: #8b5e3c; color: #fff; }
+
+.text-vintage { color: #8b5e3c; }
+.text-vintage-strong { color: #5a3d27; }
+.hover-text-vintage:hover { color: #5a3d27; }
+
 body.dark {
 	background-color: #191f2a;
 	color: #fff;

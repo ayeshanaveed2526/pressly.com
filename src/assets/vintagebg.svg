@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <rect width="100%" height="100%" fill="#efe6d6" />
+  <g opacity="0.06">
+    <rect x="0" y="0" width="1200" height="800" fill="#d6c4a3"/>
+  </g>
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#b09a7a" font-family="serif" font-size="48">Vintage background placeholder</text>
+</svg>

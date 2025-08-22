@@ -14,19 +14,19 @@ function themedImage(seriesOrName) {
 function StickerCard({ item, onAdd, added }) {
   const imgSrc = item.image || (item.series ? `/stickers/${slugify(item.series)}.png` : `/stickers/${slugify(item.name)}.png`);
   return (
-    <div className="bg-white rounded-lg shadow p-3 flex flex-col items-start gap-2">
+    <div className="relative rounded-lg overflow-hidden p-3 card-gradient card-animate card-anim-subtle">
       <div className="w-full h-28 bg-gray-100 rounded-md overflow-hidden flex items-center justify-center">
             <img src={imgSrc} alt={item.name} className="w-full h-full object-cover" onError={(e)=>{ try{ e.target.onerror=null; const altSrc = imgSrc.replace(/\.png$/, '.svg'); e.target.src = altSrc; }catch(err){ e.target.style.display='none'; } }} />
       </div>
-      <div className="w-full">
-        <div className="font-semibold text-sm text-indigo-700">{item.name}</div>
-        <div className="text-xs text-gray-600">Size: {item.size}</div>
-        <div className="text-sm font-bold text-emerald-700 mt-1">{item.price}</div>
+      <div className="w-full mt-2">
+        <div className="font-semibold text-sm card-contrast">{item.name}</div>
+        <div className="text-xs card-contrast">Size: {item.size}</div>
+        <div className="text-sm font-bold card-contrast mt-1">{item.price}</div>
       </div>
       <button
         onClick={() => onAdd(item)}
         disabled={added}
-        className={`mt-auto w-full px-3 py-1 rounded text-sm transition ${added ? 'bg-emerald-500 text-white cursor-default' : 'bg-indigo-600 text-white hover:bg-indigo-700'}`}
+        className={`mt-3 w-full px-3 py-1 rounded text-sm transition ${added ? 'bg-emerald-500 text-white cursor-default' : 'bg-indigo-600 text-white hover:bg-indigo-700'}`}
       >
         {added ? 'Added ✓' : 'Add to Cart'}
       </button>
@@ -64,7 +64,7 @@ export default function StickerCategoryPage({ category, onBack, onAddToCart }) {
     <main className="max-w-6xl mx-auto py-8 px-4">
       <div className="mb-4 flex items-center justify-between">
         <button onClick={onBack} className="px-3 py-1 bg-slate-200 rounded text-sm">← Back</button>
-        <h2 className="text-lg sm:text-2xl font-bold text-indigo-700">{category} Stickers</h2>
+  <h2 className="text-lg sm:text-2xl font-bold text-vintage">{category} Stickers</h2>
         <div />
       </div>
 
@@ -81,11 +81,11 @@ export default function StickerCategoryPage({ category, onBack, onAddToCart }) {
           <h3 className="text-lg font-bold mb-3">Popular Series & Franchises</h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {hollywoodSeries.map((s) => (
-              <div key={s} onClick={() => setSelectedSeries(s)} className="cursor-pointer bg-white p-4 rounded shadow flex flex-col items-center text-center">
+              <div key={s} onClick={() => setSelectedSeries(s)} className="cursor-pointer relative rounded-lg overflow-hidden p-4 card-gradient card-animate card-anim-subtle flex flex-col items-center text-center">
                 <div className="h-24 w-full bg-gray-100 rounded mb-3 overflow-hidden">
                   <img src={`/stickers/${slugify(s)}.png`} alt={s} className="w-full h-full object-cover" onError={(e)=>{ try{ e.target.onerror=null; e.target.src=`/stickers/${slugify(s)}.svg`; e.target.onerror = (ev)=>{ ev.target.onerror=null; ev.target.src = themedImage(s); }; }catch(err){ e.target.style.display='none'; } }} />
                 </div>
-                <div className="font-medium text-indigo-700">{s}</div>
+                <div className="font-medium card-contrast">{s}</div>
               </div>
             ))}
           </div>
@@ -126,7 +126,7 @@ export default function StickerCategoryPage({ category, onBack, onAddToCart }) {
                 <div key={st.id} className="bg-white p-3 rounded-lg shadow flex flex-col">
                   <div className="h-28 bg-gray-100 rounded flex items-center justify-center text-sm text-gray-500">{st.preview}</div>
                   <div className="mt-3">
-                    <div className="text-sm font-medium text-indigo-700">{st.name}</div>
+                    <div className="text-sm font-medium text-vintage">{st.name}</div>
                     <div className="text-sm text-emerald-700 font-bold mt-1">100 Rs</div>
                     <input value={val} onChange={e => setEnteredNames(prev => ({...prev, [st.id]: e.target.value}))} placeholder="Enter name (e.g. Alex)" className="w-full border rounded px-3 py-2 mt-2" />
                     <div className="mt-2 flex items-center justify-between">
@@ -142,7 +142,7 @@ export default function StickerCategoryPage({ category, onBack, onAddToCart }) {
                             if (ex) return prev.map(p => p.id === id ? { ...p, quantity: p.quantity + 1 } : p);
                             return [...prev, { id, quantity: 1 }];
                           });
-                        }} className={`px-3 py-1 rounded text-white ${!val.trim() ? 'bg-gray-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700'}`}>
+                        }} className={`px-3 py-1 rounded text-white ${!val.trim() ? 'bg-gray-400 cursor-not-allowed' : 'btn-vintage'}`}>
                           +
                         </button>
                         <div className="px-3 py-1 border rounded text-sm">{qty}</div>
