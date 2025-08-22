@@ -3,9 +3,9 @@
   "name": "Pressly Official",
   "icons": [
     {
-      "src": "logo192.png",
+      "src": "icon.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192 128x128"
     },
     {
       "src": "logo512.png",

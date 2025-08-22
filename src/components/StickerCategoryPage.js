@@ -25,12 +25,20 @@ export default function StickerCategoryPage({ category, onBack, onAddToCart }) {
   const [addedIds, setAddedIds] = useState([]);
   const [showBundleModal, setShowBundleModal] = useState(false);
   const [bundleSelection, setBundleSelection] = useState([]);
+  const [enteredNames, setEnteredNames] = useState({});
+  const [addedCustomIds, setAddedCustomIds] = useState([]);
   const sizes = ["2x2 in", "2.5x2.5 in", "3x3 in", "4x3 in"];
   const stickers = Array.from({ length: 20 }).map((_, i) => ({
     id: i + 1,
     name: `${category} Sticker ${i + 1}`,
     price: "40 Rs",
     size: sizes[i % sizes.length],
+  }));
+  // 10 demo styles for custom name stickers
+  const styles = Array.from({ length: 10 }).map((_, i) => ({
+    id: `style-${i+1}`,
+    name: `Style ${i + 1}`,
+    preview: `Preview ${i + 1}`,
   }));
 
   return (
@@ -43,22 +51,46 @@ export default function StickerCategoryPage({ category, onBack, onAddToCart }) {
 
       <div className="mb-4 text-sm text-amber-700 font-semibold flex items-center justify-between">
         <div>if you want the bundle of 4 in 150 Rs</div>
-        <button onClick={() => { setBundleSelection(stickers.slice(0,4).map(s=>s.id)); setShowBundleModal(true); }} className="px-3 py-1 bg-amber-200 rounded text-sm">Create Bundle</button>
+        <div className="flex items-center gap-2">
+          <button onClick={() => { setBundleSelection(stickers.slice(0,4).map(s=>s.id)); setShowBundleModal(true); }} className="px-3 py-1 bg-amber-200 rounded text-sm">Create Bundle</button>
+        </div>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-        {stickers.map((s) => (
-          <StickerCard
-            key={s.id}
-            item={s}
-            onAdd={(item) => {
-              if (onAddToCart) onAddToCart({ name: item.name, price: item.price, priceValue: 40, id: item.id });
-              setAddedIds(prev => prev.includes(item.id) ? prev : [...prev, item.id]);
-            }}
-            added={addedIds.includes(s.id)}
-          />
-        ))}
-      </div>
+      {/* Custom styles inline grid (replaces main grid when active) */}
+      {/* Always show customise styles grid with inline name input */}
+      <section className="mt-6">
+        <div className="mb-4">
+          <h3 className="text-lg font-bold">Customise your name — choose a style</h3>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          {styles.map(st => {
+            const val = enteredNames[st.id] || '';
+            const customId = `custom-${st.id}-${val.trim()}`;
+            const added = addedCustomIds.includes(customId);
+            return (
+              <div key={st.id} className="bg-white p-3 rounded-lg shadow flex flex-col">
+                <div className="h-28 bg-gray-100 rounded flex items-center justify-center text-sm text-gray-500">{st.preview}</div>
+                <div className="mt-3">
+                  <div className="text-sm font-medium text-indigo-700">{st.name}</div>
+                  <div className="text-sm text-emerald-700 font-bold mt-1">100 Rs</div>
+                  <input value={val} onChange={e => setEnteredNames(prev => ({...prev, [st.id]: e.target.value}))} placeholder="Enter name (e.g. Alex)" className="w-full border rounded px-3 py-2 mt-2" />
+                  <div className="mt-2 flex items-center justify-between">
+                    <button disabled={!val.trim() || added} onClick={() => {
+                      const itemName = `${val.trim()} - ${st.name} ${category} Sticker`;
+                      if (onAddToCart) onAddToCart({ name: itemName, price: '100 Rs', priceValue: 100, id: customId, style: st.name });
+                      setAddedCustomIds(prev => prev.includes(customId) ? prev : [...prev, customId]);
+                    }} className={`px-3 py-1 rounded text-white ${(!val.trim() || added) ? 'bg-gray-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700'}`}>
+                      {added ? 'Added ✓' : 'Add to Cart'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </section>
+
+  {/* name-input modal removed — inline inputs used instead */}
 
       {/* Bundle Modal */}
       {showBundleModal && (
