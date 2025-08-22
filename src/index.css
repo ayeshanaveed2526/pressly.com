@@ -163,6 +163,23 @@
 .btn-vintage:hover { transform: translateY(-2px); filter: brightness(1.04); }
 .btn-vintage-subtle { background: #3d291f; color: #fff; }
 
+/* Hero-specific CTA: pill shape, slight emboss + warmer highlight */
+.btn-hero {
+	display: inline-block;
+	padding: .65rem 1.25rem;
+	border-radius: 9999px; /* pill */
+	font-weight: 700;
+	color: #fff;
+	background: linear-gradient(180deg, #7a5138 0%, #5e3f2a 55%, #3d291f 100%);
+	box-shadow: 0 10px 20px rgba(45,28,11,0.18), inset 0 1px 0 rgba(255,255,255,0.06);
+	border: 1px solid rgba(0,0,0,0.18);
+	text-shadow: 0 1px 0 rgba(0,0,0,0.12);
+	transition: transform .14s ease, box-shadow .14s ease, filter .14s ease;
+}
+.btn-hero:hover { transform: translateY(-3px); filter: brightness(1.06); box-shadow: 0 14px 28px rgba(45,28,11,0.22), inset 0 1px 0 rgba(255,255,255,0.06); }
+.btn-hero:active { transform: translateY(-1px) scale(0.997); }
+
+
 .text-vintage { color: #8b5e3c; }
 .text-vintage-strong { color: #5a3d27; }
 .hover-text-vintage:hover { color: #5a3d27; }

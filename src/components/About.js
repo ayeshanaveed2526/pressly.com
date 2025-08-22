@@ -50,7 +50,7 @@ function ContactArea() {
   return (
     <div className="mt-6 bg-slate-50 p-4 rounded">
       <div className="text-sm text-gray-500">Founder</div>
-      <div className="text-lg font-semibold">Ayesha Naveed</div>
+      <div className="text-lg text-vintage font-semibold">Ayesha Naveed</div>
       <div className="text-sm text-gray-600 mb-3">Designer & Founder</div>
 
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
