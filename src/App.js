@@ -112,7 +112,7 @@ function App() {
 
   return (
     <div className="min-h-screen transition-colors duration-300">
-      <Navbar onCartClick={handleOpenCart} onContactClick={handleShowOrderForm} darkMode={darkMode} toggleDarkMode={toggleDarkMode} navigate={navigate} />
+  <Navbar onCartClick={handleOpenCart} onContactClick={handleShowOrderForm} navigate={navigate} />
       {/* route handling */}
       {route === '/' && (
         <>

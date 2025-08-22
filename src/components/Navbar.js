@@ -1,14 +1,7 @@
 
 import { useState, useEffect } from "react";
-import { ReactComponent as MoonIcon } from "../assets/moon.svg";
 
-function getInitialMode() {
-  const saved = localStorage.getItem('darkMode');
-  if (saved !== null) return saved === 'true';
-  return window.matchMedia('(prefers-color-scheme: dark)').matches;
-}
-
-function Navbar({ darkMode, toggleDarkMode, navigate }) {
+function Navbar({ onCartClick, navigate }) {
   return (
     <nav className="nav-vintage shadow-md py-2 sm:py-4 px-3 sm:px-4 flex flex-wrap justify-between items-center sticky top-0 z-50">
       <div className="flex items-center gap-3">
@@ -22,8 +15,13 @@ function Navbar({ darkMode, toggleDarkMode, navigate }) {
         <li><button onClick={() => navigate('/about')} className="nav-link font-medium">About us</button></li>
       </ul>
       <div className="flex items-center gap-2 md:gap-3">
-        <button onClick={toggleDarkMode} className="p-1 sm:p-2 rounded-full nav-toggle flex items-center justify-center">
-          <MoonIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+        <button onClick={onCartClick} className="px-3 py-1 rounded-md bg-white/10 hover:bg-white/20 flex items-center gap-2 nav-toggle">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="M3 3h2l.4 2M7 13h10l3-8H6.4" strokeLinecap="round" strokeLinejoin="round" />
+            <circle cx="10" cy="20" r="1" />
+            <circle cx="18" cy="20" r="1" />
+          </svg>
+          <span className="hidden sm:inline text-white font-medium">Your Cart</span>
         </button>
       </div>
     </nav>
