@@ -11,7 +11,10 @@ function getInitialMode() {
 function Navbar({ darkMode, toggleDarkMode, navigate }) {
   return (
     <nav className="bg-slate-100 shadow-md py-2 sm:py-4 px-3 sm:px-4 flex flex-wrap justify-between items-center sticky top-0 z-50 dark:bg-slate-900">
-      <div className="text-lg sm:text-2xl font-bold text-indigo-700 dark:text-white">Pressly</div>
+      <div className="flex items-center gap-3">
+  <img src="/logo192.png" alt="Pressly logo" className="w-8 h-8 sm:w-10 sm:h-10 rounded-full" />
+        <div className="text-lg sm:text-2xl font-bold text-indigo-700 dark:text-white">Pressly</div>
+      </div>
       <ul className="hidden sm:flex space-x-3 md:space-x-6 text-sm sm:text-base">
         <li><button onClick={() => navigate('/')} className="text-gray-700 hover:text-indigo-700 font-medium dark:text-gray-200 dark:hover:text-indigo-400">Home</button></li>
   <li><button onClick={() => navigate('/products')} className="text-gray-700 hover:text-indigo-700 font-medium dark:text-gray-200 dark:hover:text-indigo-400">Products</button></li>
