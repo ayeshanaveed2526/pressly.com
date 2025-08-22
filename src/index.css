@@ -15,23 +15,12 @@
 }
 
 .site-bg{
-	/* prefer the project asset inside src so webpack resolves it during build; using the provided PNG */
+	/* keep the user's provided background image only */
 	background-image: url('./assets/vintagebg.png');
 	background-size: cover;
 	background-position: center center;
 	background-repeat: no-repeat;
-	/* subtle fallback gradient in case image missing at runtime */
-	background-color: #efe6d6;
 }
-
-.site-bg::before{
-	content: '';
-	position: fixed;
-	inset: 0;
-	background: rgba(245,238,220,0.35);
-	pointer-events: none;
-}
-
 .parchment-bg{
 	/* removed SVG asset reference to avoid build resolution errors; using color fallback */
 	background-color: var(--parchment);
@@ -40,11 +29,13 @@
 }
 
 .paper-card{
-	background: rgba(255,255,255,0.6);
+	background: rgba(255,255,255,0.92);
 	background-blend-mode: multiply;
 	box-shadow: 0 8px 24px rgba(0,0,0,0.12);
 	border-radius: 10px;
 	border: 1px solid rgba(0,0,0,0.05);
+	position: relative; /* create stacking context for tape pseudo-elements */
+	z-index: 10;
 }
 
 /* Brown gradient grid/card styles and animations */
@@ -86,37 +77,46 @@
 
 .taped {
 	position: relative;
-	display: inline-block;
-	padding: 10px;
-	background: #fff;
-	box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+	display: inline-block; /* keep original compact alignment */
+	padding: 10px; /* restore original compact padding */
+	background: rgba(255,255,255,0.95);
+	box-shadow: 2px 2px 10px rgba(0,0,0,0.12);
+	border-radius: 10px;
+	border: 1px solid rgba(0,0,0,0.05);
 }
 
+/* dark brown tape on top-left and bottom-right */
 .taped::before,
 .taped::after {
 	content: "";
 	position: absolute;
-	width: 60px;
-	height: 20px;
-	background: rgba(255, 255, 200, 0.8); /* light yellow tape */
-	transform: rotate(-5deg);
+	width: 82px;
+	height: 34px;
+	background: linear-gradient(180deg, #4a2f1f 0%, #6b4634 100%);
+	box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+	border-radius: 3px;
+	opacity: 0.95;
+	pointer-events: none;
+	z-index: 50; /* ensure tape overlays the card */
 }
 
 .taped::before {
-	top: -10px;
-	left: 20px;
+	/* top-left */
+	top: -14px;
+	left: 16px;
+	transform: rotate(-10deg);
+	clip-path: polygon(0 8%, 100% 0, 100% 88%, 0 100%);
 }
 
 .taped::after {
-	bottom: -10px;
-	right: 20px;
-	transform: rotate(5deg);
+	/* bottom-right */
+	bottom: -14px;
+	right: 16px;
+	transform: rotate(10deg);
+	clip-path: polygon(0 0, 100% 8%, 100% 100%, 0 92%);
 }
 
-.taped img {
-	width: 200px;
-	display: block;
-}
+.taped img { display:block; max-width:100%; }
 
 @keyframes floatButterfly {
 	0% { transform: translateY(0) rotate(-2deg); }
@@ -163,6 +163,9 @@
 .text-vintage-strong { color: #5a3d27; }
 .hover-text-vintage:hover { color: #5a3d27; }
 
+/* strong dark brown ink color utility */
+.text-ink { color: var(--ink); }
+
 /* Make borders for elements using .border-2 show pastel yellow across the site */
 .border-2 { border-color: var(--pastel-yellow) !important; }
 
@@ -171,3 +174,101 @@ body.dark {
 	background-color: #191f2a;
 	color: #fff;
 }
+
+/* Vintage navbar: dark brown background with white text */
+.nav-vintage {
+	background: var(--ink); /* dark brown */
+	color: #fff;
+	box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+}
+.nav-vintage .nav-brand {
+	color: #fff;
+}
+.nav-vintage .nav-link {
+	color: #fff;
+	opacity: 0.95;
+	transition: color .18s ease, opacity .18s ease, transform .12s ease;
+}
+.nav-vintage .nav-link:hover {
+	color: #fff;
+	opacity: 1;
+	transform: translateY(-1px);
+}
+.nav-vintage .nav-toggle {
+	background: rgba(255,255,255,0.08);
+	color: #fff;
+}
+.nav-vintage .nav-toggle:hover{
+	background: rgba(255,255,255,0.12);
+}
+
+/* Featured / Polaroid grid styles */
+@import url('https://fonts.googleapis.com/css2?family=Sacramento&family=Inter:wght@400;600&display=swap');
+
+.featured-section {
+	/* transparent to let the page background show through */
+	background: transparent;
+}
+
+.polaroid-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+	gap: 2rem;
+	align-items: start;
+}
+
+.polaroid {
+	--tilt: 0deg;
+	position: relative;
+	transform: rotate(var(--tilt));
+	transition: transform 280ms cubic-bezier(.2,.9,.2,1), box-shadow 280ms;
+	cursor: pointer;
+	transform-origin: 50% 20%;
+}
+
+.polaroid-frame {
+	background: #fffafa;
+	border-radius: 6px;
+	padding: 12px 12px 18px;
+	box-shadow: 0 12px 24px rgba(30,22,14,0.12);
+	border: 1px solid rgba(20,16,12,0.05);
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	transition: transform 280ms, box-shadow 280ms;
+}
+
+.polaroid-img {
+	width: 100%;
+	height: 180px;
+	object-fit: cover;
+	border-radius: 4px;
+	display: block;
+	margin-bottom: 12px;
+	background: linear-gradient(90deg, #efe6d8, #f7efe2);
+}
+
+.polaroid-caption { display:flex; justify-content:space-between; align-items:baseline; gap:12px }
+.product-name { font-family: 'Sacramento', 'Parisienne', cursive; font-size:1.15rem; color:#3b2a1f }
+.product-price { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; font-weight:600; color:#6b4f3d; font-size:.95rem }
+
+.tape { position:absolute; width:72px; height:20px; background: linear-gradient(90deg, rgba(98,65,41,0.95), rgba(76,48,30,0.95)); box-shadow:0 6px 12px rgba(31,22,15,0.18); transform-origin:center; pointer-events:none; border-radius:2px; opacity:0.95; mix-blend-mode:multiply }
+.tape-top-left { top:-10px; left:18px; transform:rotate(-12deg); clip-path: polygon(0 0, 100% 5%, 96% 100%, 6% 93%); }
+.tape-bottom-right { right:18px; bottom:-10px; transform:rotate(12deg); clip-path: polygon(4% 6%, 94% 0, 100% 96%, 0 94%); }
+
+.polaroid:hover { transform: translateY(-10px) rotate(calc(var(--tilt) * 0.6)) scale(1.04); z-index:40 }
+.polaroid:hover .polaroid-frame { box-shadow: 0 22px 48px rgba(30,22,14,0.18) }
+
+@media (min-width: 768px) {
+	.polaroid:nth-child(3n + 1) { --tilt: -3deg }
+	.polaroid:nth-child(3n + 2) { --tilt: 1.5deg }
+	.polaroid:nth-child(3n + 3) { --tilt: -1deg }
+}
+
+@media (max-width: 640px) {
+	.polaroid-img { height: 160px }
+	.tape { width:56px; height:16px }
+}
+
+.featured-title { color:#3b2a1f; font-family: 'Parisienne', cursive; letter-spacing:0.6px }
+

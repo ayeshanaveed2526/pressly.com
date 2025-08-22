@@ -27,7 +27,7 @@ function ProductGrid({ onProductClick, onAddToCart, onStickerCategory }) {
 
   return (
     <main className="max-w-6xl mx-auto py-8 sm:py-12 px-3 sm:px-4">
-  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-vintage mb-6 sm:mb-8 text-center">Shop by Category</h2>
+  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-ink mb-6 sm:mb-8 text-center">Shop by Category</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8">
         {/* Sticker Choices Grid */}
   <div className="relative rounded-lg overflow-hidden pastel-border flex flex-col cursor-pointer card-gradient card-animate card-anim-subtle" onClick={() => setShowStickerModal(true)}>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
+import FeaturedProducts from "./components/FeaturedProducts";
 import ProductGrid from "./components/ProductGrid";
 import StickerCategoryPage from "./components/StickerCategoryPage";
 import ReviewsPage from "./components/ReviewsPage";
@@ -116,6 +117,7 @@ function App() {
       {route === '/' && (
         <>
           <Hero />
+          <FeaturedProducts products={products} />
           <div className="flex justify-center gap-4 my-6">
             <button className="btn-vintage" onClick={handleOpenCart}>View Cart ({cartItems.length})</button>
           </div>
