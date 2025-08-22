@@ -16,7 +16,12 @@ function ProductGrid({ onProductClick, onAddToCart, onStickerCategory }) {
     "Your Name in Arabic", "Your Name in Urdu"
   ];
   const cardOptions = [
-    "Business Card", "Event Invitation", "Custom Greeting Card"
+    "Mother's Day Card",
+    "Father's Day Card",
+    "Eid Celebration Card",
+    "Birthday Card",
+    "Anniversary Card",
+    "Thank You Card"
   ];
   const vintageOptions = [
     { size: 'A4 (8.27 x 11.69 in)', price: '80 Rs', priceValue: 80, id: 'vintage-a4' },
@@ -158,14 +163,31 @@ function ProductGrid({ onProductClick, onAddToCart, onStickerCategory }) {
 
       {/* Custom Printing Cards Modal */}
       {showCardsModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full relative border-2 border-indigo-200">
-            <button onClick={() => setShowCardsModal(false)} className="absolute top-2 right-2 text-indigo-600 hover:text-emerald-600 text-2xl font-bold">&times;</button>
-            <h2 className="text-2xl font-bold text-indigo-700 mb-4">Choose Card Type</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4">
+          <div className="paper-card taped rounded-xl shadow-lg p-6 max-w-md w-full relative border-2 border-transparent">
+            <button onClick={() => setShowCardsModal(false)} className="absolute top-2 right-2 text-ink hover:text-sepia text-2xl font-bold">&times;</button>
+            <h2 className="text-2xl font-pressly text-ink mb-4">Special Occasion Cards</h2>
             <div className="flex flex-col gap-3">
               {cardOptions.map((opt, idx) => (
-                <button key={idx} className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-emerald-400 transition text-left">
-                  {opt}
+                <button
+                  key={idx}
+                  className="px-4 py-3 btn-vintage text-left flex flex-col items-start gap-1"
+                  onClick={() => {
+                    // add a vintage-themed card to the cart and close modal
+                    const id = `card-${opt.replace(/\s+/g, '-').toLowerCase()}`;
+                    onAddToCart({
+                      id,
+                      name: opt,
+                      price: '250 Rs',
+                      priceValue: 250,
+                      quantity: 1,
+                      image: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=400&q=80'
+                    });
+                    setShowCardsModal(false);
+                  }}
+                >
+                  <span className="font-pressly text-ink text-lg">{opt}</span>
+                  <span className="text-sm text-ink/70">Vintage-themed design — customizable message</span>
                 </button>
               ))}
             </div>

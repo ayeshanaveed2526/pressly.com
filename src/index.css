@@ -152,14 +152,16 @@
 
 /* Vintage button and text utilities */
 .btn-vintage {
-	background: linear-gradient(180deg, #b99a77 0%, #8b5e3c 100%);
+	/* darker, richer brown for primary actions (Add to Cart, Submit) */
+	background: linear-gradient(180deg, #5e3f2a 0%, #3d291f 100%);
 	color: #fff;
 	border-radius: 8px;
 	padding: .5rem 1rem;
-	box-shadow: 0 6px 14px rgba(139,94,60,0.18);
+	box-shadow: 0 6px 18px rgba(45,28,11,0.22);
+	border: 1px solid rgba(0,0,0,0.08);
 }
-.btn-vintage:hover { transform: translateY(-2px); filter: brightness(1.03); }
-.btn-vintage-subtle { background: #8b5e3c; color: #fff; }
+.btn-vintage:hover { transform: translateY(-2px); filter: brightness(1.04); }
+.btn-vintage-subtle { background: #3d291f; color: #fff; }
 
 .text-vintage { color: #8b5e3c; }
 .text-vintage-strong { color: #5a3d27; }
@@ -202,6 +204,12 @@ body.dark {
 }
 .nav-vintage .nav-toggle:hover{
 	background: rgba(255,255,255,0.12);
+}
+
+/* footer vintage style */
+.footer-vintage {
+	background: linear-gradient(180deg, #7a5338 0%, #5e3f2a 100%);
+	color: #fff;
 }
 
 /* Featured / Polaroid grid styles */

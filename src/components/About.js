@@ -12,16 +12,16 @@ export default function About() {
     <main className="max-w-4xl mx-auto py-10 px-4">
       <section className="bg-white rounded-lg shadow p-6 mb-6">
   <h1 className="text-3xl font-bold text-vintage mb-3">About Pressly</h1>
-        <p className="text-gray-700 mb-4">I started this mini business from a love of design and small-batch handcrafted stationery. Pressly began as a way to share small, meaningful art — laptop stickers and mini canvases — that brighten everyday spaces. Over time we refined our prints, materials and small-scale production, focusing on quality and thoughtful customer service.</p>
-        <p className="text-gray-700">We prioritize simple, durable materials and friendly service. If you have a custom idea, we enjoy collaborating to bring it to life.</p>
+        <p className="text-ink mb-4">I started this mini business from a love of design and small-batch handcrafted stationery. Pressly began as a way to share small, meaningful art — laptop stickers and mini canvases — that brighten everyday spaces. Over time we refined our prints, materials and small-scale production, focusing on quality and thoughtful customer service.</p>
+        <p className="text-ink">We prioritize simple, durable materials and friendly service. If you have a custom idea, we enjoy collaborating to bring it to life.</p>
 
   <ContactArea />
       </section>
 
-      <section className="bg-white rounded-lg shadow p-6 mb-6">
+  <section className="bg-white rounded-lg shadow p-6 mb-6">
   <h2 className="text-2xl font-bold text-vintage mb-3">Our Mission</h2>
-        <p className="text-gray-700">Make small moments special. We design objects that are affordable, personal and made to last — so your laptop, room or desk becomes a little more you.</p>
-      </section>
+    <p className="text-ink">Make small moments special. We design objects that are affordable, personal and made to last — so your laptop, room or desk becomes a little more you.</p>
+  </section>
 
       <section className="bg-white rounded-lg shadow p-6">
   <h2 className="text-2xl font-bold text-vintage mb-3">FAQ</h2>
@@ -29,11 +29,11 @@ export default function About() {
           {faqs.map((f, i) => (
             <div key={i} className="border rounded">
               <button onClick={() => setOpenFaq(openFaq === i ? null : i)} className="w-full text-left px-4 py-3 flex items-center justify-between">
-                <span className="font-medium">{f.q}</span>
+                <span className="font-medium text-ink">{f.q}</span>
                 <span className="text-gray-500">{openFaq === i ? '−' : '+'}</span>
               </button>
               {openFaq === i && (
-                <div className="px-4 pb-3 text-gray-700">{f.a}</div>
+                <div className="px-4 pb-3 text-ink">{f.a}</div>
               )}
             </div>
           ))}
