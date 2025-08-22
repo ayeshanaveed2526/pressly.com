@@ -68,7 +68,7 @@ export default function StickerCategoryPage({ category, onBack, onAddToCart }) {
         <div />
       </div>
 
-      <div className="mb-4 text-sm text-amber-700 font-semibold flex items-center justify-between">
+  <div className="mb-4 text-sm text-amber-700 font-semibold flex items-center justify-between pastel-border p-3 rounded">
         <div>if you want the bundle of 4 in 150 Rs</div>
         <div className="flex items-center gap-2">
           <button onClick={() => { setBundleSelection(stickers.slice(0,4).map(s=>s.id)); setShowBundleModal(true); }} className="px-3 py-1 bg-amber-200 rounded text-sm">Create Bundle</button>
@@ -77,7 +77,7 @@ export default function StickerCategoryPage({ category, onBack, onAddToCart }) {
 
       {/* Hollywood series subcategories */}
       {category === 'Hollywood' && !selectedSeries && (
-        <section className="mt-4">
+  <section className="mt-4 pastel-border p-3 rounded">
           <h3 className="text-lg font-bold mb-3">Popular Series & Franchises</h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {hollywoodSeries.map((s) => (
@@ -95,7 +95,7 @@ export default function StickerCategoryPage({ category, onBack, onAddToCart }) {
       {/* If a series is selected, show stickers for that series */}
       {category === 'Hollywood' && selectedSeries && (
         <section className="mt-6">
-          <div className="mb-4 flex items-center justify-between">
+          <div className="mb-4 flex items-center justify-between pastel-border p-3 rounded">
             <div className="text-lg font-bold">{selectedSeries} Stickers</div>
             <button onClick={() => setSelectedSeries(null)} className="px-3 py-1 bg-slate-200 rounded text-sm">← Back to Series</button>
           </div>

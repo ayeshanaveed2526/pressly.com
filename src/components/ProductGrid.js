@@ -27,10 +27,10 @@ function ProductGrid({ onProductClick, onAddToCart, onStickerCategory }) {
 
   return (
     <main className="max-w-6xl mx-auto py-8 sm:py-12 px-3 sm:px-4">
-      <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-indigo-700 mb-6 sm:mb-8 text-center">Shop by Category</h2>
+  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-vintage mb-6 sm:mb-8 text-center">Shop by Category</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8">
         {/* Sticker Choices Grid */}
-        <div className="relative rounded-lg overflow-hidden border-2 border-transparent flex flex-col cursor-pointer card-gradient card-animate card-anim-subtle" onClick={() => setShowStickerModal(true)}>
+  <div className="relative rounded-lg overflow-hidden pastel-border flex flex-col cursor-pointer card-gradient card-animate card-anim-subtle" onClick={() => setShowStickerModal(true)}>
           <div className="h-36 sm:h-48 flex items-center justify-center">
             <span className="text-lg sm:text-2xl font-bold card-contrast">Laptop Stickers</span>
           </div>
@@ -38,7 +38,7 @@ function ProductGrid({ onProductClick, onAddToCart, onStickerCategory }) {
         </div>
 
         {/* Mini Canvas Grid */}
-        <div className="relative rounded-lg overflow-hidden border-2 border-transparent flex flex-col cursor-pointer card-gradient card-animate card-anim-subtle" onClick={() => setShowCanvasModal(true)}>
+  <div className="relative rounded-lg overflow-hidden pastel-border flex flex-col cursor-pointer card-gradient card-animate card-anim-subtle" onClick={() => setShowCanvasModal(true)}>
           <div className="h-36 sm:h-48 flex items-center justify-center">
             <span className="text-lg sm:text-2xl font-bold card-contrast">Mini Canvas Names</span>
           </div>
@@ -46,7 +46,7 @@ function ProductGrid({ onProductClick, onAddToCart, onStickerCategory }) {
         </div>
 
         {/* Custom Printing Cards Grid */}
-        <div className="relative rounded-lg overflow-hidden border-2 border-transparent flex flex-col cursor-pointer items-center card-gradient card-animate card-anim-subtle" onClick={() => setShowCardsModal(true)}>
+  <div className="relative rounded-lg overflow-hidden pastel-border flex flex-col cursor-pointer items-center card-gradient card-animate card-anim-subtle" onClick={() => setShowCardsModal(true)}>
           <div className="h-36 sm:h-48 flex items-center justify-center w-full">
             <span className="text-lg sm:text-2xl font-bold card-contrast text-center w-full">Custom Printing Cards</span>
           </div>
@@ -54,7 +54,7 @@ function ProductGrid({ onProductClick, onAddToCart, onStickerCategory }) {
         </div>
 
         {/* Vintage Papers for Letters Grid */}
-        <div className="relative rounded-lg overflow-hidden border-2 border-transparent flex flex-col cursor-pointer card-gradient card-animate card-anim-subtle" onClick={() => setShowVintageModal(true)}>
+  <div className="relative rounded-lg overflow-hidden pastel-border flex flex-col cursor-pointer card-gradient card-animate card-anim-subtle" onClick={() => setShowVintageModal(true)}>
           <div className="h-36 sm:h-48 flex items-center justify-center">
             <span className="text-lg sm:text-2xl font-bold card-contrast">Vintage Papers</span>
           </div>

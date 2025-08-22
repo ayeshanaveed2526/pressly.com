@@ -11,6 +11,7 @@
 	--parchment: #f6efd9;
 	--sepia: #a78b6f;
 	--ink: #2d1c0b;
+	--pastel-yellow: #f6e7c8;
 }
 
 .site-bg{
@@ -79,9 +80,43 @@
 	border-radius: inherit;
 }
 
+/* pastel border helper */
+.pastel-border { border: 1px solid var(--pastel-yellow); }
 
-.tape-top-left{ position: absolute; left: -14px; top: -14px; width: 120px; transform: rotate(-12deg); }
-.tape-bottom-right{ position: absolute; right: -14px; bottom: -14px; width: 120px; transform: rotate(8deg); }
+
+.taped {
+	position: relative;
+	display: inline-block;
+	padding: 10px;
+	background: #fff;
+	box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+}
+
+.taped::before,
+.taped::after {
+	content: "";
+	position: absolute;
+	width: 60px;
+	height: 20px;
+	background: rgba(255, 255, 200, 0.8); /* light yellow tape */
+	transform: rotate(-5deg);
+}
+
+.taped::before {
+	top: -10px;
+	left: 20px;
+}
+
+.taped::after {
+	bottom: -10px;
+	right: 20px;
+	transform: rotate(5deg);
+}
+
+.taped img {
+	width: 200px;
+	display: block;
+}
 
 @keyframes floatButterfly {
 	0% { transform: translateY(0) rotate(-2deg); }
@@ -127,6 +162,10 @@
 .text-vintage { color: #8b5e3c; }
 .text-vintage-strong { color: #5a3d27; }
 .hover-text-vintage:hover { color: #5a3d27; }
+
+/* Make borders for elements using .border-2 show pastel yellow across the site */
+.border-2 { border-color: var(--pastel-yellow) !important; }
+
 
 body.dark {
 	background-color: #191f2a;
