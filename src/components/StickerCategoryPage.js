@@ -26,7 +26,7 @@ function StickerCard({ item, onAdd, added }) {
       <button
         onClick={() => onAdd(item)}
         disabled={added}
-        className={`mt-3 w-full px-3 py-1 rounded text-sm transition ${added ? 'bg-emerald-500 text-white cursor-default' : 'bg-indigo-600 text-white hover:bg-indigo-700'}`}
+        className={`mt-3 w-full px-3 py-1 rounded text-sm transition ${added ? 'bg-emerald-500 text-white cursor-default' : 'btn-vintage'}`}
       >
         {added ? 'Added ✓' : 'Add to Cart'}
       </button>
