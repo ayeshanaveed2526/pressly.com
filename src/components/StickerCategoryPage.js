@@ -63,7 +63,10 @@ export default function StickerCategoryPage({ category, onBack, onAddToCart }) {
   return (
     <main className="max-w-6xl mx-auto py-8 px-4">
       <div className="mb-4 flex items-center justify-between">
-        <button onClick={onBack} className="px-3 py-1 bg-slate-200 rounded text-sm">← Back</button>
+        <button onClick={onBack} className="px-3 py-1 btn-vintage-subtle rounded-md text-sm flex items-center gap-2 shadow-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 16l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+          <span className="font-medium">Back</span>
+        </button>
   <h2 className="text-lg sm:text-2xl font-bold text-vintage">{category} Stickers</h2>
         <div />
       </div>
