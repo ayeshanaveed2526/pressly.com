@@ -33,11 +33,11 @@ function ProductGrid({ onProductClick, onAddToCart, onStickerCategory }) {
   <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-ink mb-6 sm:mb-8 text-center">Shop by Category</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8">
         {/* Sticker Choices Grid */}
-  <div className="relative rounded-lg overflow-hidden pastel-border flex flex-col cursor-pointer card-gradient card-animate card-anim-subtle" onClick={() => setShowStickerModal(true)}>
-          <div className="h-36 sm:h-48 flex items-center justify-center">
-            <span className="text-lg sm:text-2xl font-bold card-contrast">Laptop Stickers</span>
+  <div className="relative rounded-lg overflow-hidden pastel-border flex flex-col cursor-pointer items-center card-gradient card-animate card-anim-subtle" onClick={() => setShowStickerModal(true)}>
+          <div className="h-36 sm:h-48 flex items-center justify-center w-full">
+            <span className="text-lg sm:text-2xl font-pressly text-ink text-center w-full">Laptop Stickers</span>
           </div>
-          <div className="p-3 sm:p-4 text-center card-contrast text-sm">Click to choose your sticker category!</div>
+          <div className="p-3 sm:p-4 text-center card-contrast text-sm w-full">Click to choose your sticker category!</div>
         </div>
 
         {/* Mini Canvas Grid */}
@@ -51,17 +51,17 @@ function ProductGrid({ onProductClick, onAddToCart, onStickerCategory }) {
         {/* Custom Printing Cards Grid */}
   <div className="relative rounded-lg overflow-hidden pastel-border flex flex-col cursor-pointer items-center card-gradient card-animate card-anim-subtle" onClick={() => setShowCardsModal(true)}>
           <div className="h-36 sm:h-48 flex items-center justify-center w-full">
-            <span className="text-lg sm:text-2xl font-bold card-contrast text-center w-full">Custom Printing Cards</span>
+            <span className="text-lg sm:text-2xl font-pressly text-ink text-center w-full">Custom Printing Cards</span>
           </div>
           <div className="p-3 sm:p-4 text-center card-contrast text-sm w-full">Click to choose your card type!</div>
         </div>
 
         {/* Vintage Papers for Letters Grid */}
-  <div className="relative rounded-lg overflow-hidden pastel-border flex flex-col cursor-pointer card-gradient card-animate card-anim-subtle" onClick={() => setShowVintageModal(true)}>
-          <div className="h-36 sm:h-48 flex items-center justify-center">
-            <span className="text-lg sm:text-2xl font-bold card-contrast">Vintage Papers</span>
+  <div className="relative rounded-lg overflow-hidden pastel-border flex flex-col cursor-pointer items-center card-gradient card-animate card-anim-subtle" onClick={() => setShowVintageModal(true)}>
+          <div className="h-36 sm:h-48 flex items-center justify-center w-full">
+            <span className="text-lg sm:text-2xl font-pressly text-ink text-center w-full">Vintage Papers</span>
           </div>
-          <div className="p-3 sm:p-4 text-center card-contrast text-sm">Click to choose your vintage paper style!</div>
+          <div className="p-3 sm:p-4 text-center card-contrast text-sm w-full">Click to choose your vintage paper style!</div>
         </div>
       </div>
 
