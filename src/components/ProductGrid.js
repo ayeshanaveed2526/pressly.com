@@ -12,9 +12,7 @@ function ProductGrid({ onProductClick, onAddToCart, onStickerCategory }) {
   const stickerCategories = [
     "Medical", "Computer Science", "Banking", "Bollywood", "Hollywood", "Customise Your Own"
   ];
-  const canvasOptions = [
-    "Your Name in Arabic", "Your Name in Urdu"
-  ];
+  // canvas options handled inline; removed unused canvasOptions array
   const cardOptions = [
     "Mother's Day Card",
     "Father's Day Card",

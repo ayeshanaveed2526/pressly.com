@@ -1,6 +1,4 @@
 
-import { useState, useEffect } from "react";
-
 function Navbar({ onCartClick, navigate }) {
   return (
     <nav className="nav-vintage shadow-md py-2 sm:py-4 px-3 sm:px-4 flex flex-wrap justify-between items-center sticky top-0 z-50">

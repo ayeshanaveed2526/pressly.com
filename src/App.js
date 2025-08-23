@@ -44,7 +44,7 @@ function getInitialMode() {
 
 function App() {
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [selectedStickerCategory, setSelectedStickerCategory] = useState(null);
+  const [, setSelectedStickerCategory] = useState(null);
   const [cartOpen, setCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [showOrderForm, setShowOrderForm] = useState(false);
@@ -60,9 +60,6 @@ function App() {
   }, [darkMode]);
 
   const handleProductClick = (product) => setSelectedProduct(product);
-  const handleStickerCategoryClick = (category) => {
-    setSelectedStickerCategory(category);
-  };
   const handleCloseDetails = () => setSelectedProduct(null);
   const handleAddToCart = (product) => {
     const addQty = product.quantity || 1;
@@ -99,7 +96,7 @@ function App() {
     setCartOpen(false);
   };
   const handleCloseOrderForm = () => setShowOrderForm(false);
-  const toggleDarkMode = () => setDarkMode((prev) => !prev);
+  // dark mode toggle removed from use as theme handled via system preference and saved state
 
   // simple hash-based routing
   const [route, setRoute] = useState(window.location.hash.replace('#','') || '/');

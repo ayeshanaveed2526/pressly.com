@@ -17,7 +17,7 @@ function FeaturedProducts({ products = [] }) {
           <figure
             key={p.id || i}
             className="polaroid"
-            style={{ ['--tilt']: `${((i % 5) - 2) * 1.8}deg` }}
+            style={{ '--tilt': `${((i % 5) - 2) * 1.8}deg` }}
           >
             <div className="polaroid-frame">
               <img src={p.image} alt={p.name} className="polaroid-img" />
