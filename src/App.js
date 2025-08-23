@@ -157,7 +157,7 @@ function App() {
         <ProductDetails product={selectedProduct} onClose={handleCloseDetails} />
       )}
       {cartOpen && (
-        <Cart cartItems={cartItems} onRemove={handleRemoveFromCart} onClose={handleCloseCart} onCheckout={handleShowOrderForm} onIncrement={handleIncrementCartItem} onDecrement={handleDecrementCartItem} />
+        <Cart cartItems={cartItems} onRemove={handleRemoveFromCart} onClose={handleCloseCart} onCheckout={handleShowOrderForm} onIncrement={handleIncrementCartItem} onDecrement={handleDecrementCartItem} navigate={navigate} />
       )}
     </div>
   );

@@ -65,99 +65,73 @@ function ProductGrid({ onProductClick, onAddToCart, onStickerCategory }) {
         </div>
       </div>
 
-      {/* Sticker Category Modal */}
-      {showStickerModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full relative border-2 border-transparent">
-            <button onClick={() => setShowStickerModal(false)} className="absolute top-2 right-2 text-vintage-strong hover-text-vintage text-2xl font-bold">&times;</button>
-            <h2 className="text-2xl font-bold text-vintage mb-4">Choose Sticker Category</h2>
-            <div className="flex flex-col gap-3">
-              {stickerCategories.map((cat, idx) => (
-                <button
-                  key={idx}
-                  className="px-4 py-2 btn-vintage text-left"
-                  onClick={() => {
-                    setShowStickerModal(false);
-                    if (onStickerCategory) return onStickerCategory(cat);
-                    if (onProductClick) return onProductClick(cat);
-                  }}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Mini Canvas Modal */}
-  {showCanvasModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full relative border-2 border-emerald-200">
-            <button onClick={() => setShowCanvasModal(false)} className="absolute top-2 right-2 text-emerald-600 hover:text-indigo-600 text-2xl font-bold">&times;</button>
-            <h2 className="text-2xl font-bold text-emerald-700 mb-4">Mini Canvas Customization</h2>
-            <form className="flex flex-col gap-4 text-black">
-              <div>
-                <label className="block font-semibold mb-2 text-emerald-700">Choose Language:</label>
-                <div className="flex gap-4">
-                  <label className="flex items-center gap-2">
-                    <input type="checkbox" name="lang-arabic" checked={canvasLang.arabic} onChange={e => setCanvasLang(l => ({ ...l, arabic: e.target.checked }))} /> Arabic
-                  </label>
-                  <label className="flex items-center gap-2">
-                    <input type="checkbox" name="lang-urdu" checked={canvasLang.urdu} onChange={e => setCanvasLang(l => ({ ...l, urdu: e.target.checked }))} /> Urdu
-                  </label>
-                </div>
+      {showCanvasModal && (
+            <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4">
+              <div className="paper-card taped rounded-xl shadow-lg p-8 max-w-md w-full relative border-2 border-transparent">
+                <button onClick={() => setShowCanvasModal(false)} className="absolute top-2 right-2 text-ink hover-text-vintage text-2xl font-bold">×</button>
+                <h2 className="text-2xl font-pressly text-ink mb-4">Mini Canvas Customization</h2>
+                <form className="flex flex-col gap-4 text-ink">
+                  <div>
+                    <label className="block font-semibold mb-2 text-ink">Choose Language:</label>
+                    <div className="flex gap-4">
+                      <label className="flex items-center gap-2">
+                        <input type="checkbox" name="lang-arabic" checked={canvasLang.arabic} onChange={e => setCanvasLang(l => ({ ...l, arabic: e.target.checked }))} /> <span className="ml-1">Arabic</span>
+                      </label>
+                      <label className="flex items-center gap-2">
+                        <input type="checkbox" name="lang-urdu" checked={canvasLang.urdu} onChange={e => setCanvasLang(l => ({ ...l, urdu: e.target.checked }))} /> <span className="ml-1">Urdu</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block font-semibold mb-2 text-ink">Write Your Name (in selected language):</label>
+                    <input type="text" className="px-4 py-2 rounded border border-amber-200 w-full text-ink" placeholder="Type your name here..." value={canvasName} onChange={e => setCanvasName(e.target.value)} />
+                  </div>
+                  <div>
+                    <label className="block font-semibold mb-2 text-ink">Canvas Theme:</label>
+                    <div className="flex gap-4">
+                      <label className="flex items-center gap-2">
+                        <input type="radio" name="theme" value="black" checked={canvasTheme === 'black'} onChange={e => setCanvasTheme(e.target.value)} /> <span className="ml-1">Black</span>
+                      </label>
+                      <label className="flex items-center gap-2">
+                        <input type="radio" name="theme" value="white" checked={canvasTheme === 'white'} onChange={e => setCanvasTheme(e.target.value)} /> <span className="ml-1">White</span>
+                      </label>
+                      <label className="flex items-center gap-2">
+                        <input type="radio" name="theme" value="multicolor" checked={canvasTheme === 'multicolor'} onChange={e => setCanvasTheme(e.target.value)} /> <span className="ml-1">Multicolor</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div className="text-sm text-ink/80 mt-2">
+                    <div><b>Selected Language:</b> {canvasLang.arabic && 'Arabic '}{canvasLang.urdu && 'Urdu '}</div>
+                    <div><b>Name:</b> {canvasName}</div>
+                    <div><b>Theme:</b> {canvasTheme}</div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      className="px-3 py-1 btn-vintage"
+                      onClick={() => {
+                        if (!canvasName || (!canvasLang.arabic && !canvasLang.urdu) || !canvasTheme) return;
+                        const lang = [canvasLang.arabic ? 'Arabic' : '', canvasLang.urdu ? 'Urdu' : ''].filter(Boolean).join(', ');
+                        onAddToCart({
+                          id: `canvas-${canvasName}-${canvasTheme}`,
+                          name: `Mini Canvas (${lang}) - ${canvasName}`,
+                          price: "800 Rs",
+                          priceValue: 800,
+                          quantity: 1,
+                          theme: canvasTheme,
+                          image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
+                        });
+                        setShowCanvasModal(false);
+                        setCanvasLang({ arabic: false, urdu: false });
+                        setCanvasName("");
+                        setCanvasTheme("");
+                      }}
+                    >Add to Cart</button>
+                  </div>
+                </form>
               </div>
-              <div>
-                <label className="block font-semibold mb-2 text-emerald-700">Write Your Name (in selected language):</label>
-                <input type="text" className="px-4 py-2 rounded border border-emerald-200 w-full" placeholder="Type your name here..." value={canvasName} onChange={e => setCanvasName(e.target.value)} />
               </div>
-              <div>
-                <label className="block font-semibold mb-2 text-emerald-700">Canvas Theme:</label>
-                <div className="flex gap-4">
-                  <label className="flex items-center gap-2">
-                    <input type="radio" name="theme" value="black" checked={canvasTheme === 'black'} onChange={e => setCanvasTheme(e.target.value)} /> Black
-                  </label>
-                  <label className="flex items-center gap-2">
-                    <input type="radio" name="theme" value="white" checked={canvasTheme === 'white'} onChange={e => setCanvasTheme(e.target.value)} /> White
-                  </label>
-                  <label className="flex items-center gap-2">
-                    <input type="radio" name="theme" value="multicolor" checked={canvasTheme === 'multicolor'} onChange={e => setCanvasTheme(e.target.value)} /> Multicolor
-                  </label>
-                </div>
-              </div>
-              <div className="text-sm text-slate-700 mt-2">
-                <div><b>Selected Language:</b> {canvasLang.arabic && 'Arabic '}{canvasLang.urdu && 'Urdu '}</div>
-                <div><b>Name:</b> {canvasName}</div>
-                <div><b>Theme:</b> {canvasTheme}</div>
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  className="px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700"
-                  onClick={() => {
-                    if (!canvasName || (!canvasLang.arabic && !canvasLang.urdu) || !canvasTheme) return;
-                    const lang = [canvasLang.arabic ? 'Arabic' : '', canvasLang.urdu ? 'Urdu' : ''].filter(Boolean).join(', ');
-                    onAddToCart({
-                      id: `canvas-${canvasName}-${canvasTheme}`,
-                      name: `Mini Canvas (${lang}) - ${canvasName}`,
-                      price: "800 Rs",
-                      priceValue: 800,
-                      quantity: 1,
-                      theme: canvasTheme,
-                      image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
-                    });
-                    setShowCanvasModal(false);
-                    setCanvasLang({ arabic: false, urdu: false });
-                    setCanvasName("");
-                    setCanvasTheme("");
-                  }}
-                >+</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+            )}
 
       {/* Custom Printing Cards Modal */}
       {showCardsModal && (
