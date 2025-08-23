@@ -65,6 +65,31 @@ function ProductGrid({ onProductClick, onAddToCart, onStickerCategory }) {
         </div>
       </div>
 
+      {/* Sticker Category Modal */}
+      {showStickerModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full relative border-2 border-transparent">
+            <button onClick={() => setShowStickerModal(false)} className="absolute top-2 right-2 text-vintage-strong hover-text-vintage text-2xl font-bold">&times;</button>
+            <h2 className="text-2xl font-bold text-vintage mb-4">Choose Sticker Category</h2>
+            <div className="flex flex-col gap-3">
+              {stickerCategories.map((cat, idx) => (
+                <button
+                  key={idx}
+                  className="px-4 py-2 btn-vintage text-left"
+                  onClick={() => {
+                    setShowStickerModal(false);
+                    if (onStickerCategory) return onStickerCategory(cat);
+                    if (onProductClick) return onProductClick(cat);
+                  }}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
       {showCanvasModal && (
             <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4">
               <div className="paper-card taped rounded-xl shadow-lg p-8 max-w-md w-full relative border-2 border-transparent">
