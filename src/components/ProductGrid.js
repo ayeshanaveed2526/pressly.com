@@ -41,11 +41,11 @@ function ProductGrid({ onProductClick, onAddToCart, onStickerCategory }) {
         </div>
 
         {/* Mini Canvas Grid */}
-  <div className="relative rounded-lg overflow-hidden pastel-border flex flex-col cursor-pointer card-gradient card-animate card-anim-subtle" onClick={() => setShowCanvasModal(true)}>
-          <div className="h-36 sm:h-48 flex items-center justify-center">
-            <span className="text-lg sm:text-2xl font-bold card-contrast">Mini Canvas Names</span>
+        <div className="relative rounded-lg overflow-hidden pastel-border flex flex-col cursor-pointer items-center card-gradient card-animate card-anim-subtle" onClick={() => setShowCanvasModal(true)}>
+          <div className="h-36 sm:h-48 flex items-center justify-center w-full">
+            <span className="text-lg sm:text-2xl font-pressly text-ink text-center w-full">Mini Canvas Names</span>
           </div>
-          <div className="p-3 sm:p-4 text-center card-contrast text-sm">Click to choose your canvas option!</div>
+          <div className="p-3 sm:p-4 text-center card-contrast text-sm w-full">Click to choose your canvas option!</div>
         </div>
 
         {/* Custom Printing Cards Grid */}
