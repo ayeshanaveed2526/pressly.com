@@ -118,9 +118,7 @@ function App() {
         <>
           <Hero />
           <FeaturedProducts products={products} />
-          <div className="flex justify-center gap-4 my-6">
-            <button className="btn-vintage" onClick={handleOpenCart}>View Cart ({cartItems.length})</button>
-          </div>
+          {/* View Cart button removed from homepage per request */}
           {!showOrderForm && (
             <ProductGrid products={products} onProductClick={handleProductClick} onAddToCart={handleAddToCart} onStickerCategory={(cat) => { setSelectedStickerCategory(cat); navigate(`/product/${encodeURIComponent(cat)}`); }} />
           )}
