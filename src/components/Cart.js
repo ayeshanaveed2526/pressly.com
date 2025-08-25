@@ -41,13 +41,27 @@ function Cart({ cartItems, onRemove, onClose, onCheckout, navigate, onIncrement,
                     <span className="font-semibold text-pink-700 text-sm sm:text-base">{item.name}</span>
                   </div>
                   <div className="flex items-center gap-3 mt-2 sm:mt-0">
-                    <div className="flex items-center gap-2">
-                      <button onClick={() => decrement(idx)} className="px-2 py-1 bg-[#efd9ca] text-vintage rounded hover:bg-[#e6cfb9] transition text-xs sm:text-sm">-</button>
-                      <div className="px-2 py-1 border rounded text-sm">{item.quantity || 1}</div>
-                      <button onClick={() => typeof onIncrement === 'function' ? onIncrement(idx) : null} className="px-2 py-1 bg-[#efd9ca] text-vintage rounded hover:bg-[#e6cfb9] transition text-xs sm:text-sm">+</button>
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => decrement(idx)}
+                          aria-label="Decrease quantity"
+                          className="w-8 h-8 flex items-center justify-center rounded-full border border-amber-200 bg-white text-ink hover:bg-[#efe0d3] transition-shadow shadow-sm"
+                        >
+                          <span className="text-lg leading-none">−</span>
+                        </button>
+                        <div className="min-w-[48px] text-center px-2 py-1 border border-amber-200 rounded-md bg-[#fffaf3] text-ink font-medium shadow-inner">{item.quantity || 1}</div>
+                        <button
+                          onClick={() => typeof onIncrement === 'function' ? onIncrement(idx) : null}
+                          aria-label="Increase quantity"
+                          className="w-8 h-8 flex items-center justify-center rounded-full border border-amber-200 bg-white text-ink hover:bg-[#efe0d3] transition-shadow shadow-sm"
+                        >
+                          <span className="text-lg leading-none">+</span>
+                        </button>
+                      </div>
+                      <div className="ml-2 text-ink font-bold text-sm sm:text-base">Rs {lineTotal(item)}</div>
+                      <button onClick={() => onRemove(idx)} className="px-3 py-1 btn-vintage-subtle rounded ml-2">Remove</button>
                     </div>
-                    <span className="text-orange-500 font-bold text-sm sm:text-base">Rs {lineTotal(item)}</span>
-                    <button onClick={() => onRemove(idx)} className="px-2 py-1 bg-[#efd9ca] text-vintage rounded hover:bg-[#e6cfb9] transition text-xs sm:text-sm">Remove</button>
                   </div>
                 </li>
               ))}
