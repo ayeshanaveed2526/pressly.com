@@ -64,9 +64,9 @@ function Cart({ cartItems = [], onRemove, onClose, onCheckout, navigate, onIncre
                   </div>
                   <div className="flex items-center gap-3 mt-2 sm:mt-0">
                     <div className="flex items-center gap-2">
-                      <button onClick={() => decrement(idx)} aria-label="Decrease quantity" className="w-8 h-8 flex items-center justify-center rounded-full border border-amber-200 bg-white text-ink hover:bg-[#efe0d3] transition-shadow shadow-sm">−</button>
-                      <div className="min-w-[48px] text-center px-2 py-1 border border-amber-200 rounded-md bg-[#fffaf3] text-ink font-medium shadow-inner">{item.quantity || 1}</div>
-                      <button onClick={() => typeof onIncrement === 'function' ? onIncrement(idx) : null} aria-label="Increase quantity" className="w-8 h-8 flex items-center justify-center rounded-full border border-amber-200 bg-white text-ink hover:bg-[#efe0d3] transition-shadow shadow-sm">+</button>
+                      <button onClick={() => decrement(idx)} aria-label="Decrease quantity" className="qty-btn" title="Decrease quantity">−</button>
+                      <div className="qty-pill" aria-live="polite">{item.quantity || 1}</div>
+                      <button onClick={() => typeof onIncrement === 'function' ? onIncrement(idx) : null} aria-label="Increase quantity" className="qty-btn" title="Increase quantity">+</button>
                     </div>
                     <div className="ml-2 text-ink font-bold text-sm sm:text-base">Rs {lineTotal(item)}</div>
                     <button onClick={() => onRemove(idx)} className="px-3 py-1 btn-vintage-subtle rounded ml-2">Remove</button>
