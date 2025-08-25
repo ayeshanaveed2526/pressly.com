@@ -10,6 +10,8 @@ import Footer from "./components/Footer";
 import ProductDetails from "./components/ProductDetails";
 import Cart from "./components/Cart";
 import OrderForm from "./components/OrderForm";
+import { db } from './firebase';
+import { collection, addDoc, doc, setDoc, serverTimestamp } from 'firebase/firestore';
 
 const products = [
   {
@@ -75,26 +77,42 @@ function App() {
       if (idx !== -1) {
         const updated = [...prev];
         updated[idx] = { ...updated[idx], quantity: (updated[idx].quantity || 1) + addQty };
+        // persist updated cart
+        persistCart(updated);
         return updated;
       }
-      return [...prev, { ...product, quantity: addQty }];
+      const updatedNew = [...prev, { ...product, quantity: addQty }];
+      persistCart(updatedNew);
+      return updatedNew;
     });
     setSelectedProduct(null);
     setCartOpen(true);
   };
   const handleRemoveFromCart = (idx) => {
-    setCartItems(prev => prev.filter((_, i) => i !== idx));
+    setCartItems(prev => {
+      const updated = prev.filter((_, i) => i !== idx);
+      persistCart(updated);
+      return updated;
+    });
   };
   const handleIncrementCartItem = (idx) => {
-    setCartItems(prev => prev.map((it, i) => i === idx ? { ...it, quantity: (it.quantity || 1) + 1 } : it));
+    setCartItems(prev => {
+      const updated = prev.map((it, i) => i === idx ? { ...it, quantity: (it.quantity || 1) + 1 } : it);
+      persistCart(updated);
+      return updated;
+    });
   };
   const handleDecrementCartItem = (idx) => {
-    setCartItems(prev => prev.flatMap((it, i) => {
-      if (i !== idx) return it;
-      const q = it.quantity || 1;
-      if (q <= 1) return [];
-      return { ...it, quantity: q - 1 };
-    }));
+    setCartItems(prev => {
+      const updated = prev.flatMap((it, i) => {
+        if (i !== idx) return it;
+        const q = it.quantity || 1;
+        if (q <= 1) return [];
+        return { ...it, quantity: q - 1 };
+      });
+      persistCart(updated);
+      return updated;
+    });
   };
   const handleOpenCart = () => setCartOpen(true);
   const handleCloseCart = () => setCartOpen(false);
@@ -121,6 +139,21 @@ function App() {
     return () => window.removeEventListener('hashchange', onHash);
   }, []);
   const navigate = (path) => { window.location.hash = path; setRoute(path); };
+
+  // Persist cart to Firestore: create a cart doc on first save, then update
+  const persistCart = async (items) => {
+    try {
+      const cartId = localStorage.getItem('cartId');
+      if (!cartId) {
+        const ref = await addDoc(collection(db, 'carts'), { items, createdAt: serverTimestamp() });
+        localStorage.setItem('cartId', ref.id);
+      } else {
+        await setDoc(doc(db, 'carts', cartId), { items, updatedAt: serverTimestamp() }, { merge: true });
+      }
+    } catch (err) {
+      console.error('Failed to persist cart to Firestore:', err);
+    }
+  };
 
   return (
     <div className="min-h-screen transition-colors duration-300">

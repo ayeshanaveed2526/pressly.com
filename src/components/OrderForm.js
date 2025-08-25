@@ -46,7 +46,7 @@ function OrderForm({ onClose, cartItems = [] }) {
   const [errorMsg, setErrorMsg] = useState("");
 
   const handleConfirmOrder = async () => {
-    alert("Confirm Order clicked");
+    // confirm and submit order to Firestore
     setLoading(true);
     setErrorMsg("");
     console.log("Order submit attempted", form);
@@ -55,7 +55,15 @@ function OrderForm({ onClose, cartItems = [] }) {
   const delivery = shippingCost;
   const total = subtotal + delivery;
       await addDoc(collection(db, "orders"), {
-        ...form,
+        customer: {
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          address: form.address,
+        },
+        paymentMethod: form.payment,
+        product: form.product,
+        details: form.details,
         cart: items,
         subtotal,
         delivery,
