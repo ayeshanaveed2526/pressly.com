@@ -18,13 +18,13 @@ function Cart({ cartItems, onRemove, onClose, onCheckout, navigate, onIncrement,
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-lg p-4 sm:p-8 max-w-md w-full relative">
-  <button onClick={onClose} className="absolute top-2 right-2 text-vintage-strong hover-text-vintage text-xl sm:text-2xl font-bold">&times;</button>
-  <h2 className="text-lg sm:text-2xl font-bold text-vintage mb-3 sm:mb-4">Your Cart</h2>
+    <div className="paper-card taped rounded-xl shadow-lg p-4 sm:p-8 max-w-md w-full relative">
+  <button onClick={onClose} className="absolute top-2 right-2 text-ink hover-text-vintage text-xl sm:text-2xl font-bold">&times;</button>
+  <h2 className="text-lg sm:text-2xl font-pressly text-ink mb-3 sm:mb-4">Your Cart</h2>
 
         {cartItems.length === 0 ? (
             <div className="flex flex-col items-center gap-4">
-            <p className="text-gray-700 text-sm">Your cart is empty.</p>
+            <p className="text-ink text-sm">Your cart is empty.</p>
             <button
               onClick={() => { onClose(); if (navigate) navigate('/products'); }}
               className="btn-vintage"
@@ -66,8 +66,19 @@ function Cart({ cartItems, onRemove, onClose, onCheckout, navigate, onIncrement,
                 </li>
               ))}
             </ul>
-            <div className="mt-4">
-              <div className="text-sm">Subtotal: Rs {cartItems.reduce((s, it) => s + lineTotal(it), 0)}</div>
+            <div className="mt-4 space-y-2">
+              <div className="flex justify-between text-sm text-ink">
+                <span>Subtotal</span>
+                <span>Rs {cartItems.reduce((s, it) => s + lineTotal(it), 0)}</span>
+              </div>
+              <div className="flex justify-between text-sm text-ink">
+                <span>Estimated Shipping</span>
+                <span>Rs 100</span>
+              </div>
+              <div className="flex justify-between text-base font-bold text-ink">
+                <span>Total</span>
+                <span>Rs {cartItems.reduce((s, it) => s + lineTotal(it), 0) + 100}</span>
+              </div>
             </div>
             <button
               className="mt-4 sm:mt-6 w-full px-3 py-2 sm:px-4 sm:py-2 btn-vintage"

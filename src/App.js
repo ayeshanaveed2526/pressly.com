@@ -46,7 +46,14 @@ function App() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [, setSelectedStickerCategory] = useState(null);
   const [cartOpen, setCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState(() => {
+    try {
+      const raw = localStorage.getItem('cartItems');
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
+  });
   const [showOrderForm, setShowOrderForm] = useState(false);
   const [darkMode, setDarkMode] = useState(getInitialMode);
 
@@ -96,6 +103,14 @@ function App() {
     setCartOpen(false);
   };
   const handleCloseOrderForm = () => setShowOrderForm(false);
+  // persist cart to localStorage so user's cart survives reloads
+  useEffect(() => {
+    try {
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    } catch (e) {
+      // ignore quota errors
+    }
+  }, [cartItems]);
   // dark mode toggle removed from use as theme handled via system preference and saved state
 
   // simple hash-based routing
