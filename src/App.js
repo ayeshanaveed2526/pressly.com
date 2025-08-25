@@ -119,7 +119,6 @@ function App() {
           {!showOrderForm && (
             <ProductGrid products={products} onProductClick={handleProductClick} onAddToCart={handleAddToCart} onStickerCategory={(cat) => { setSelectedStickerCategory(cat); navigate(`/product/${encodeURIComponent(cat)}`); }} />
           )}
-          {showOrderForm && <OrderForm onClose={handleCloseOrderForm} cartItems={cartItems} />}
           <Footer />
         </>
       )}
@@ -159,6 +158,7 @@ function App() {
       {cartOpen && (
         <Cart cartItems={cartItems} onRemove={handleRemoveFromCart} onClose={handleCloseCart} onCheckout={handleShowOrderForm} onIncrement={handleIncrementCartItem} onDecrement={handleDecrementCartItem} navigate={navigate} />
       )}
+  {showOrderForm && <OrderForm onClose={handleCloseOrderForm} cartItems={cartItems} />}
     </div>
   );
 }
