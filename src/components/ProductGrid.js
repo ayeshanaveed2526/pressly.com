@@ -27,6 +27,9 @@ function ProductGrid({ onProductClick, onAddToCart, onStickerCategory }) {
     { size: 'Letter (8.5 x 11 in)', price: '90 Rs', priceValue: 90, id: 'vintage-letter' },
     { size: 'Small Note (4 x 6 in)', price: '40 Rs', priceValue: 40, id: 'vintage-4x6' }
   ];
+  // state to handle per-card custom message input
+  const [editingCardIndex, setEditingCardIndex] = useState(null);
+  const [customMessage, setCustomMessage] = useState("");
 
   return (
     <main className="max-w-6xl mx-auto py-8 sm:py-12 px-3 sm:px-4">
@@ -166,26 +169,70 @@ function ProductGrid({ onProductClick, onAddToCart, onStickerCategory }) {
             <h2 className="text-2xl font-pressly text-ink mb-4">Special Occasion Cards</h2>
             <div className="flex flex-col gap-3">
               {cardOptions.map((opt, idx) => (
-                <button
-                  key={idx}
-                  className="px-4 py-3 btn-vintage text-left flex flex-col items-start gap-1"
-                  onClick={() => {
-                    // add a vintage-themed card to the cart and close modal
-                    const id = `card-${opt.replace(/\s+/g, '-').toLowerCase()}`;
-                    onAddToCart({
-                      id,
-                      name: opt,
-                      price: '250 Rs',
-                      priceValue: 250,
-                      quantity: 1,
-                      image: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=400&q=80'
-                    });
-                    setShowCardsModal(false);
-                  }}
-                >
-                  <span className="font-pressly text-ink text-lg">{opt}</span>
-                  <span className="text-sm text-ink/70">Vintage-themed design — customizable message</span>
-                </button>
+                <div key={idx} className="w-full">
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-center justify-between w-full">
+                      <div>
+                        <div className="font-pressly text-ink text-lg">{opt}</div>
+                        <div className="text-sm text-ink/70">Vintage-themed design — customizable message</div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          className="px-3 py-1 btn-vintage"
+                          onClick={() => {
+                            const id = `card-${opt.replace(/\s+/g, '-').toLowerCase()}`;
+                            onAddToCart({
+                              id,
+                              name: opt,
+                              price: '250 Rs',
+                              priceValue: 250,
+                              quantity: 1,
+                              image: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=400&q=80'
+                            });
+                            setShowCardsModal(false);
+                          }}
+                        >Add</button>
+                        <button className="px-3 py-1 btn-vintage-subtle" onClick={() => { setEditingCardIndex(idx); setCustomMessage(''); }}>
+                          Add your customise message
+                        </button>
+                      </div>
+                    </div>
+
+                    {editingCardIndex === idx && (
+                      <div className="mt-2 p-3 bg-amber-50 rounded">
+                        <textarea
+                          rows={3}
+                          placeholder={`Write your message for ${opt}...`}
+                          value={customMessage}
+                          onChange={e => setCustomMessage(e.target.value)}
+                          className="w-full px-3 py-2 rounded border border-amber-200 text-ink"
+                        />
+                        <div className="mt-2 flex gap-2">
+                          <button
+                            className="px-3 py-1 btn-vintage"
+                            onClick={() => {
+                              if (!customMessage.trim()) return;
+                              const customId = `custom-${opt.replace(/\s+/g, '-').toLowerCase()}-${Date.now()}`;
+                              onAddToCart({
+                                id: customId,
+                                name: `${opt} (Custom)`,
+                                price: '300 Rs',
+                                priceValue: 300,
+                                quantity: 1,
+                                note: customMessage.trim(),
+                                image: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=400&q=80'
+                              });
+                              setEditingCardIndex(null);
+                              setCustomMessage('');
+                              setShowCardsModal(false);
+                            }}
+                          >Save Message</button>
+                          <button className="px-3 py-1 btn-vintage-subtle" onClick={() => { setEditingCardIndex(null); setCustomMessage(''); }}>Cancel</button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
               ))}
             </div>
           </div>
