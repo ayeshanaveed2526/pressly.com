@@ -108,7 +108,7 @@ function ProductGrid({ onProductClick, onAddToCart, onStickerCategory }) {
                     </div>
                   </div>
                   <div>
-                    <label className="block font-semibold mb-2 text-ink">Write Your Name (in selected language):</label>
+                    <label className="block font-semibold mb-2 text-ink">Write Your Name (in urdu font):</label>
                     <input type="text" className="px-4 py-2 rounded border border-amber-200 w-full text-ink" placeholder="Type your name here..." value={canvasName} onChange={e => setCanvasName(e.target.value)} />
                   </div>
                   <div>
