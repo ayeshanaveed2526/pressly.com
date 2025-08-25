@@ -52,8 +52,8 @@ function OrderForm({ onClose, cartItems = [] }) {
     console.log("Order submit attempted", form);
     try {
       // compute totals (use the precomputed values)
-      const delivery = 100;
-      const total = subtotal + delivery;
+  const delivery = shippingCost;
+  const total = subtotal + delivery;
       await addDoc(collection(db, "orders"), {
         ...form,
         cart: items,
@@ -77,6 +77,21 @@ function OrderForm({ onClose, cartItems = [] }) {
     const q = it.quantity || 1;
     return sum + pv * q;
   }, 0);
+
+  // shipping estimator (same logic as Cart)
+  const estimateShipping = (amount) => {
+    if (amount === 0) return 0;
+    if (amount < 500) return 100;
+    if (amount < 1500) return 150;
+    return 0; // free over 1500
+  };
+
+  const [shippingOption, setShippingOption] = React.useState(() => {
+    const est = estimateShipping(subtotal);
+    return est === 0 ? 'Free' : 'Standard';
+  });
+
+  const shippingCost = shippingOption === 'Free' ? 0 : (shippingOption === 'Express' ? 250 : estimateShipping(subtotal));
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
@@ -107,8 +122,8 @@ function OrderForm({ onClose, cartItems = [] }) {
                   ))}
                 </ul>
                   <div className="text-sm font-medium text-ink">Subtotal: Rs {subtotal}</div>
-                  <div className="text-sm">Delivery: Rs 100</div>
-                  <div className="text-lg font-bold mt-2">Total: Rs {subtotal + 100}</div>
+                  <div className="text-sm">Delivery ({shippingOption}): Rs {shippingCost}</div>
+                  <div className="text-lg font-bold mt-2">Total: Rs {subtotal + shippingCost}</div>
               </div>
               <button type="button" className="px-6 py-2 btn-vintage w-full mb-2" onClick={() => { handleConfirmOrder(); }} disabled={loading}>
                 {loading ? "Submitting..." : "Confirm Order"}

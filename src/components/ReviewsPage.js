@@ -40,18 +40,19 @@ export default function ReviewsPage() {
 
   return (
     <main className="max-w-4xl mx-auto py-8 px-4">
-  <h2 className="text-2xl font-bold text-vintage mb-4">Reviews</h2>
+      <h2 className="text-2xl font-bold text-vintage mb-2">Reviews</h2>
+      <p className="text-ink text-sm mb-4">Real feedback from real customers — helps others decide.</p>
 
       <section className="mb-6">
-        <form onSubmit={handleSubmit} className="bg-white p-4 rounded shadow flex flex-col gap-3">
+        <form onSubmit={handleSubmit} className="bg-cream p-4 rounded shadow flex flex-col gap-3">
           <div className="flex gap-2">
-            <input placeholder="Your name" value={name} onChange={e => setName(e.target.value)} className="flex-1 px-3 py-2 border rounded text-ink" />
+            <input placeholder="Your name" value={name} onChange={e => setName(e.target.value)} className="flex-1 px-3 py-2 border rounded text-ink bg-white" />
             <div className="flex items-center gap-2">
               <span className="text-sm text-ink">Rating</span>
               <Stars value={rating} onChange={setRating} />
             </div>
           </div>
-          <textarea placeholder="Write a short review" value={comment} onChange={e => setComment(e.target.value)} rows={3} className="px-3 py-2 border rounded text-ink" />
+          <textarea placeholder="Write a short review" value={comment} onChange={e => setComment(e.target.value)} rows={3} className="px-3 py-2 border rounded text-ink bg-white" />
           <div className="flex items-center justify-between">
             <button className="px-4 py-2 btn-vintage">Submit Review</button>
             {saved && <div className="text-sm text-emerald-600">Saved</div>}
@@ -65,7 +66,7 @@ export default function ReviewsPage() {
         ) : (
           <ul className="flex flex-col gap-3">
             {reviews.map((r, i) => (
-              <li key={i} className="bg-white p-3 rounded shadow">
+              <li key={i} className="bg-cream p-3 rounded shadow">
                 <div className="flex items-center justify-between">
                   <div className="font-semibold text-ink">{r.name}</div>
                   <div className="text-sm text-vintage-strong">{new Date(r.date).toLocaleString()}</div>
