@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { db } from '../firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 export default function CustomCardDesigner({ onClose, onAddToCart }) {
   const categories = ['Birthday', 'Wedding', 'Vintage', 'Aesthetic', 'Thank-you', 'Anniversary', 'Congratulations'];
@@ -32,6 +34,21 @@ export default function CustomCardDesigner({ onClose, onAddToCart }) {
       note: message.trim(),
       image: '',
     });
+    // save custom message to Firestore for backend records
+    (async () => {
+      try {
+        if (message && message.trim()) {
+          await addDoc(collection(db, 'customMessages'), {
+            category: selected,
+            message: message.trim(),
+            itemId: id,
+            createdAt: serverTimestamp(),
+          });
+        }
+      } catch (err) {
+        console.error('Failed to save custom message to Firestore:', err);
+      }
+    })();
     onClose && onClose();
   };
 
