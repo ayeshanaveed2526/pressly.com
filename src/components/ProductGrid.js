@@ -45,7 +45,7 @@ function ProductGrid({ onProductClick, onAddToCart, onStickerCategory }) {
           <div className="h-36 sm:h-48 flex items-center justify-center w-full">
             <span className="text-lg sm:text-2xl font-pressly text-ink text-center w-full">Mini Canvas Names</span>
           </div>
-          <div className="p-3 sm:p-4 text-center card-contrast text-sm w-full">Click to choose your canvas option!</div>
+          <div className="p-3 sm:p-4 text-center card-contrast text-sm w-full">Click to choose your canas option!</div>
         </div>
 
         {/* Custom Printing Cards Grid */}
