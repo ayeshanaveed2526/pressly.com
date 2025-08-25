@@ -121,7 +121,7 @@ function ProductGrid({ onProductClick, onAddToCart, onStickerCategory }) {
                         <input type="radio" name="theme" value="white" checked={canvasTheme === 'white'} onChange={e => setCanvasTheme(e.target.value)} /> <span className="ml-1">White</span>
                       </label>
                       <label className="flex items-center gap-2">
-                        <input type="radio" name="theme" value="multicolor" checked={canvasTheme === 'multicolor'} onChange={e => setCanvasTheme(e.target.value)} /> <span className="ml-1">Multicolor</span>
+                        <input type="radio" name="theme" value="multicolor" checked={canvasTheme === 'multicolor'} onChange={e => setCanvasTheme(e.target.value)} /> <span className="ml-1">Colorful</span>
                       </label>
                     </div>
                   </div>
