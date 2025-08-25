@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import CustomCardDesigner from './CustomCardDesigner';
 
 function ProductGrid({ onProductClick, onAddToCart, onStickerCategory }) {
   const [showStickerModal, setShowStickerModal] = useState(false);
   const [showCanvasModal, setShowCanvasModal] = useState(false);
   const [showCardsModal, setShowCardsModal] = useState(false);
   const [showVintageModal, setShowVintageModal] = useState(false);
+  const [showDesigner, setShowDesigner] = useState(false);
   // Mini Canvas modal state
   const [canvasLang, setCanvasLang] = useState({ arabic: false, urdu: false });
   const [canvasName, setCanvasName] = useState("");
@@ -52,12 +54,12 @@ function ProductGrid({ onProductClick, onAddToCart, onStickerCategory }) {
         </div>
 
         {/* Custom Printing Cards Grid */}
-  <div className="relative rounded-lg overflow-hidden pastel-border flex flex-col cursor-pointer items-center card-gradient card-animate card-anim-subtle" onClick={() => setShowCardsModal(true)}>
+  <div className="relative rounded-lg overflow-hidden pastel-border flex flex-col cursor-pointer items-center card-gradient card-animate card-anim-subtle" onClick={() => setShowDesigner(true)}>
           <div className="h-36 sm:h-48 flex items-center justify-center w-full">
-            <span className="text-lg sm:text-2xl font-pressly text-ink text-center w-full">Custom Printing Cards</span>
+              <span className="text-lg sm:text-2xl font-pressly text-ink text-center w-full">Custom Printing Cards</span>
+            </div>
+            <div className="p-3 sm:p-4 text-center card-contrast text-sm w-full">Click to design your own card</div>
           </div>
-          <div className="p-3 sm:p-4 text-center card-contrast text-sm w-full">Click to choose your card type!</div>
-        </div>
 
         {/* Vintage Papers for Letters Grid */}
   <div className="relative rounded-lg overflow-hidden pastel-border flex flex-col cursor-pointer items-center card-gradient card-animate card-anim-subtle" onClick={() => setShowVintageModal(true)}>
@@ -237,6 +239,9 @@ function ProductGrid({ onProductClick, onAddToCart, onStickerCategory }) {
             </div>
           </div>
         </div>
+      )}
+      {showDesigner && (
+        <CustomCardDesigner onClose={() => setShowDesigner(false)} onAddToCart={(item) => { onAddToCart && onAddToCart(item); }} />
       )}
 
       {/* Vintage Papers Modal */}
