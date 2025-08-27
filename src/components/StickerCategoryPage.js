@@ -206,16 +206,8 @@ export default function StickerCategoryPage({ category, onBack, onAddToCart }) {
               </div>
             </div>
           </section>
-
-          <section className="mt-4">
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-              {stickers.map(st => (
-                <StickerCard key={st.id} item={st} added={addedIds.includes(st.id)} onAdd={(item) => {
-                  if (onAddToCart) onAddToCart({ id: item.id, name: item.name, price: item.price, priceValue: item.priceValue || 40, quantity: 1 });
-                  setAddedIds(prev => prev.includes(item.id) ? prev : [...prev, item.id]);
-                }} />
-              ))}
-            </div>
+          <section className="mt-4 text-center text-ink/70">
+            <div className="p-4 rounded-md border border-amber-100 bg-white/80">Individual stickers are not shown here — choose a Pack of 5 or Pack of 10 above to add a curated bundle to your cart.</div>
           </section>
         </>
       )}
