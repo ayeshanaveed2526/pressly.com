@@ -41,7 +41,7 @@ export default function StickerCategoryPage({ category, onBack, onAddToCart }) {
   const [bundleSelection, setBundleSelection] = useState([]);
   const [enteredNames, setEnteredNames] = useState({});
   const [addedCustomIds, setAddedCustomIds] = useState([]);
-  const [selectedSeries, setSelectedSeries] = useState(null);
+  // removed legacy selectedSeries in favor of inline bundles
   const [expandedSeries, setExpandedSeries] = useState(null);
   const [seriesIndex, setSeriesIndex] = useState({});
   const sizes = ["2x2 in", "2.5x2.5 in", "3x3 in", "4x3 in"];
@@ -129,7 +129,7 @@ export default function StickerCategoryPage({ category, onBack, onAddToCart }) {
   {/* keep selectedSeries view for legacy, but bundles are primary */}
 
       {/* Show custom-name styles only when in the 'Customise Your Own' category */}
-      {category === 'Customise Your Own' ? (
+  {category === 'Customise Your Own' ? (
         <section className="mt-6">
           <div className="mb-4">
             <h3 className="text-lg font-bold">Customise your name — choose a style</h3>
@@ -173,17 +173,51 @@ export default function StickerCategoryPage({ category, onBack, onAddToCart }) {
           </div>
         </section>
       ) : (
-        /* non-custom categories: show regular sticker grid with Add to Cart buttons */
-        <section className="mt-6">
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {stickers.map(st => (
-              <StickerCard key={st.id} item={st} added={addedIds.includes(st.id)} onAdd={(item) => {
-                if (onAddToCart) onAddToCart({ id: item.id, name: item.name, price: item.price, priceValue: item.priceValue || 40, quantity: 1 });
-                setAddedIds(prev => prev.includes(item.id) ? prev : [...prev, item.id]);
-              }} />
-            ))}
-          </div>
-        </section>
+        /* non-custom categories: show a bundle panel + regular sticker grid */
+        <>
+          <section className="mt-6 mb-6">
+            <div className="p-4 rounded-lg bg-gradient-to-r from-[#fff7f0] to-[#fff1e6] border border-amber-100 shadow-sm">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <h3 className="text-lg font-bold">{category} Sticker Packs</h3>
+                  <p className="text-sm text-ink/70">Choose a curated pack for this category — best value for fans and gifts.</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button onClick={() => { setBundleSelection(stickers.slice(0,5).map(s=>s.id)); setShowBundleModal(true); }} className="px-3 py-2 btn-vintage">Create 5-pack</button>
+                  <button onClick={() => { setBundleSelection(stickers.slice(0,10).map(s=>s.id)); setShowBundleModal(true); }} className="px-3 py-2 btn-vintage-subtle">Create 10-pack</button>
+                </div>
+              </div>
+
+              <div className="mt-4">
+                <SeriesBundle
+                  series={category}
+                  stickers={stickers.slice(0,12).map((st,i)=>({ ...st, name: `${category} - ${st.name}`, image: themedImage(category + ' sticker ' + (i+1)) }))}
+                  currentIndex={seriesIndex[category] || 0}
+                  onPrev={() => setSeriesIndex(si => ({ ...si, [category]: Math.max(0, (si[category] || 0) - 1) }))}
+                  onNext={() => setSeriesIndex(si => ({ ...si, [category]: Math.min(11, (si[category] || 0) + 1) }))}
+                  onAddPack={(count) => {
+                    const packId = `${slugify(category)}-pack-${count}-${Date.now()}`;
+                    const packItems = stickers.slice(0, count).map((it, idx) => `${category} - ${it.name}`);
+                    const priceValue = count === 5 ? Math.round(5 * 40 * 0.9) : Math.round(10 * 40 * 0.85);
+                    const priceLabel = `${priceValue} Rs`;
+                    if (onAddToCart) onAddToCart({ id: packId, name: `${category} Sticker Pack (${count})`, price: priceLabel, priceValue, quantity: 1, items: packItems });
+                  }}
+                />
+              </div>
+            </div>
+          </section>
+
+          <section className="mt-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              {stickers.map(st => (
+                <StickerCard key={st.id} item={st} added={addedIds.includes(st.id)} onAdd={(item) => {
+                  if (onAddToCart) onAddToCart({ id: item.id, name: item.name, price: item.price, priceValue: item.priceValue || 40, quantity: 1 });
+                  setAddedIds(prev => prev.includes(item.id) ? prev : [...prev, item.id]);
+                }} />
+              ))}
+            </div>
+          </section>
+        </>
       )}
 
   {/* name-input modal removed — inline inputs used instead */}
