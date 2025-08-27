@@ -7,6 +7,9 @@ import StickerCategoryPage from "./components/StickerCategoryPage";
 import ReviewsPage from "./components/ReviewsPage";
 import About from "./components/About";
 import Footer from "./components/Footer";
+import Privacy from "./components/Privacy";
+import Returns from "./components/Returns";
+import Shipping from "./components/Shipping";
 import ProductDetails from "./components/ProductDetails";
 import Cart from "./components/Cart";
 import OrderForm from "./components/OrderForm";
@@ -189,6 +192,15 @@ function App() {
       )}
       {route === '/reviews' && (
         <ReviewsPage />
+      )}
+      {route === '/privacy' && (
+        <Privacy />
+      )}
+      {route === '/returns' && (
+        <Returns />
+      )}
+      {route === '/shipping' && (
+        <Shipping />
       )}
       {route === '/contact' && (
         <div className="max-w-4xl mx-auto py-6 px-4">
