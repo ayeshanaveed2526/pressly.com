@@ -42,6 +42,8 @@ export default function StickerCategoryPage({ category, onBack, onAddToCart }) {
   const [enteredNames, setEnteredNames] = useState({});
   const [addedCustomIds, setAddedCustomIds] = useState([]);
   const [selectedSeries, setSelectedSeries] = useState(null);
+  const [expandedSeries, setExpandedSeries] = useState(null);
+  const [seriesIndex, setSeriesIndex] = useState({});
   const sizes = ["2x2 in", "2.5x2.5 in", "3x3 in", "4x3 in"];
   const stickers = Array.from({ length: 20 }).map((_, i) => ({
     id: i + 1,
@@ -78,40 +80,53 @@ export default function StickerCategoryPage({ category, onBack, onAddToCart }) {
         </div>
       </div>
 
-      {/* Hollywood series subcategories */}
-      {category === 'Hollywood' && !selectedSeries && (
-  <section className="mt-4 pastel-border p-3 rounded">
-          <h3 className="text-lg font-bold mb-3">Popular Series & Franchises</h3>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {hollywoodSeries.map((s) => (
-              <div key={s} onClick={() => setSelectedSeries(s)} className="cursor-pointer relative rounded-lg overflow-hidden p-4 card-gradient card-animate card-anim-subtle flex flex-col items-center text-center">
-                <div className="h-24 w-full bg-gray-100 rounded mb-3 overflow-hidden">
-                  <img src={`/stickers/${slugify(s)}.png`} alt={s} className="w-full h-full object-cover" onError={(e)=>{ try{ e.target.onerror=null; e.target.src=`/stickers/${slugify(s)}.svg`; e.target.onerror = (ev)=>{ ev.target.onerror=null; ev.target.src = themedImage(s); }; }catch(err){ e.target.style.display='none'; } }} />
-                </div>
-                <div className="font-medium card-contrast">{s}</div>
+          {/* Hollywood series subcategories */}
+          {category === 'Hollywood' && (
+            <section className="mt-4 pastel-border p-3 rounded">
+              <h3 className="text-lg font-bold mb-3">Popular Series & Franchises — Bundles</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {hollywoodSeries.map((s) => (
+                  <div key={s} className="relative rounded-lg overflow-hidden p-4 card-gradient card-animate card-anim-subtle flex flex-col">
+                    <div className="flex items-center gap-3">
+                      <div className="w-20 h-16 bg-gray-100 rounded overflow-hidden flex-shrink-0">
+                        <img src={themedImage(s)} alt={s} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="font-medium card-contrast">{s}</div>
+                        <div className="text-sm text-ink/70">Curated sticker bundle packs for {s} fans.</div>
+                      </div>
+                      <div className="flex-shrink-0">
+                        <button onClick={() => setExpandedSeries(prev => prev === s ? null : s)} className="px-3 py-1 btn-vintage-subtle">{expandedSeries === s ? 'Close' : 'View Bundle'}</button>
+                      </div>
+                    </div>
+
+                    {expandedSeries === s && (
+                      <div className="mt-3 border-t pt-3">
+                        <SeriesBundle
+                          series={s}
+                          stickers={stickers.slice(0,12).map((st,i)=>({ ...st, name: `${s} - ${st.name}`, image: themedImage(s + ' sticker ' + (i+1)) }))}
+                          currentIndex={seriesIndex[s] || 0}
+                          onPrev={() => setSeriesIndex(si => ({ ...si, [s]: Math.max(0, (si[s] || 0) - 1) }))}
+                          onNext={() => setSeriesIndex(si => ({ ...si, [s]: Math.min(11, (si[s] || 0) + 1) }))}
+                          onAddPack={(count) => {
+                            const packId = `${slugify(s)}-pack-${count}-${Date.now()}`;
+                            const packItems = stickers.slice(0, count).map((it, idx) => `${s} - ${it.name}`);
+                            const priceValue = count === 5 ? Math.round(5 * 40 * 0.9) : Math.round(10 * 40 * 0.85);
+                            const priceLabel = `${priceValue} Rs`;
+                            if (onAddToCart) onAddToCart({ id: packId, name: `${s} Sticker Pack (${count})`, price: priceLabel, priceValue, quantity: 1, items: packItems });
+                            setAddedIds(prev => prev.concat([]));
+                          }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </section>
-      )}
+            </section>
+          )}
 
       {/* If a series is selected, show stickers for that series */}
-      {category === 'Hollywood' && selectedSeries && (
-        <section className="mt-6">
-          <div className="mb-4 flex items-center justify-between pastel-border p-3 rounded">
-            <div className="text-lg font-bold">{selectedSeries} Stickers</div>
-            <button onClick={() => setSelectedSeries(null)} className="px-3 py-1 bg-slate-200 rounded text-sm">← Back to Series</button>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {stickers.filter((s)=>true).slice(0,12).map(st => (
-              <StickerCard key={st.id} item={{...st, name: `${selectedSeries} - ${st.name}`}} added={addedIds.includes(st.id)} onAdd={(item) => {
-                if (onAddToCart) onAddToCart({ id: item.id, name: item.name, price: item.price, priceValue: item.priceValue || 40, quantity: 1 });
-                setAddedIds(prev => prev.includes(item.id) ? prev : [...prev, item.id]);
-              }} />
-            ))}
-          </div>
-        </section>
-      )}
+  {/* keep selectedSeries view for legacy, but bundles are primary */}
 
       {/* Show custom-name styles only when in the 'Customise Your Own' category */}
       {category === 'Customise Your Own' ? (
@@ -208,5 +223,31 @@ export default function StickerCategoryPage({ category, onBack, onAddToCart }) {
         </div>
       )}
     </main>
+  );
+}
+
+function SeriesBundle({ series, stickers = [], currentIndex = 0, onPrev, onNext, onAddPack }) {
+  const current = stickers[currentIndex] || stickers[0];
+  return (
+    <div className="series-bundle">
+      <div className="flex items-center gap-4">
+        <div className="w-28 h-20 bg-white rounded overflow-hidden shadow flex items-center justify-center">
+          <img src={current.image} alt={current.name} className="w-full h-full object-cover" />
+        </div>
+        <div className="flex-1">
+          <div className="font-semibold text-ink">{current.name}</div>
+          <div className="text-sm text-ink/70">{current.size || 'Sticker'}</div>
+        </div>
+        <div className="flex items-center gap-2">
+          <button onClick={onPrev} className="px-3 py-1 bg-white border rounded">‹</button>
+          <button onClick={onNext} className="px-3 py-1 bg-white border rounded">›</button>
+        </div>
+      </div>
+
+      <div className="mt-3 flex gap-2">
+        <button onClick={() => onAddPack(5)} className="px-3 py-2 btn-vintage">Pack of 5</button>
+        <button onClick={() => onAddPack(10)} className="px-3 py-2 btn-vintage-subtle">Pack of 10</button>
+      </div>
+    </div>
   );
 }
