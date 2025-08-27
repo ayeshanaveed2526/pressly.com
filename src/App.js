@@ -173,7 +173,7 @@ function App() {
       {route === '/products' && (
         <>
           <div className="max-w-6xl mx-auto py-6 px-4">
-            <h2 className="text-2xl font-bold mb-4">Products</h2>
+            <h2 className="text-2xl font-bold mb-4 text-ink">Products</h2>
             <ProductGrid products={products} onProductClick={handleProductClick} onAddToCart={handleAddToCart} onStickerCategory={(cat) => { setSelectedStickerCategory(cat); navigate(`/product/${encodeURIComponent(cat)}`); }} />
           </div>
         </>
