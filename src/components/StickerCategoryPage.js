@@ -11,32 +11,11 @@ function themedImage(seriesOrName) {
   return `https://source.unsplash.com/600x360/?${q}`;
 }
 
-function StickerCard({ item, onAdd, added }) {
-  const imgSrc = item.image || (item.series ? `/stickers/${slugify(item.series)}.png` : `/stickers/${slugify(item.name)}.png`);
-  return (
-    <div className="relative rounded-lg overflow-hidden p-3 card-gradient card-animate card-anim-subtle">
-      <div className="w-full h-28 bg-gray-100 rounded-md overflow-hidden flex items-center justify-center">
-            <img src={imgSrc} alt={item.name} className="w-full h-full object-cover" onError={(e)=>{ try{ e.target.onerror=null; const altSrc = imgSrc.replace(/\.png$/, '.svg'); e.target.src = altSrc; }catch(err){ e.target.style.display='none'; } }} />
-      </div>
-      <div className="w-full mt-2">
-        <div className="font-semibold text-sm card-contrast">{item.name}</div>
-        <div className="text-xs card-contrast">Size: {item.size}</div>
-        <div className="text-sm font-bold card-contrast mt-1">{item.price}</div>
-      </div>
-      <button
-        onClick={() => onAdd(item)}
-        disabled={added}
-        className={`mt-3 w-full px-3 py-1 rounded text-sm transition ${added ? 'bg-emerald-500 text-white cursor-default' : 'btn-vintage'}`}
-      >
-        {added ? 'Added ✓' : 'Add to Cart'}
-      </button>
-    </div>
-  );
-}
+// StickerCard component removed during refactor; packs and bundle UI are used instead.
 
 export default function StickerCategoryPage({ category, onBack, onAddToCart }) {
   // build 20 demo stickers
-  const [addedIds, setAddedIds] = useState([]);
+  const [ , setAddedIds] = useState([]);
   const [showBundleModal, setShowBundleModal] = useState(false);
   const [bundleSelection, setBundleSelection] = useState([]);
   const [enteredNames, setEnteredNames] = useState({});

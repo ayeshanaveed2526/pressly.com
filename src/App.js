@@ -57,7 +57,7 @@ function App() {
     }
   });
   const [showOrderForm, setShowOrderForm] = useState(false);
-  const [darkMode, setDarkMode] = useState(getInitialMode);
+  const [darkMode] = useState(getInitialMode);
 
   useEffect(() => {
     localStorage.setItem('darkMode', darkMode);

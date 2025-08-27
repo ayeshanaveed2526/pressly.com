@@ -94,7 +94,7 @@ function OrderForm({ onClose, cartItems = [] }) {
     return 0; // free over 1500
   };
 
-  const [shippingOption, setShippingOption] = React.useState(() => {
+  const [shippingOption] = React.useState(() => {
     const est = estimateShipping(subtotal);
     return est === 0 ? 'Free' : 'Standard';
   });
