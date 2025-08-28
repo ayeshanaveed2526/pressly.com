@@ -162,7 +162,7 @@ function OrderForm({ onClose, cartItems = [] }) {
               </select>
               {errors.payment && <span className="text-red-600 text-sm">{errors.payment}</span>}
             </div>
-            <button type="submit" className="px-6 py-2 btn-vintage w-full">Review Order</button>
+            <button type="submit" className="px-6 py-2 btn-vintage w-full">Review order</button>
           </form>
         )}
       </div>
