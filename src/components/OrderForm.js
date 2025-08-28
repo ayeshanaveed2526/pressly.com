@@ -65,7 +65,7 @@ function OrderForm({ onClose, cartItems = [] }) {
         product: form.product,
         details: form.details,
         cart: items,
-        subtota,
+        subtotal,
         delivery,
         total,
         createdAt: new Date().toISOString()
