@@ -54,7 +54,7 @@ function OrderForm({ onClose, cartItems = [] }) {
       // compute totals (use the precomputed values)
   const delivery = shippingCost;
   const total = subtotal + delivery;
-      await addDoc(collection(db, "orders"), {
+      const data= await addDoc(collection(db, "orders"), {
         customer: {
           name: form.name,
           email: form.email,
@@ -70,6 +70,7 @@ function OrderForm({ onClose, cartItems = [] }) {
         total,
         createdAt: new Date().toISOString()
       });
+      console.log("Order submitted with ID:", data);
       setSubmitted(true);
     } catch (err) {
       setErrorMsg("Failed to submit order. Please try again.");
