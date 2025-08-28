@@ -73,7 +73,7 @@ function OrderForm({ onClose, cartItems = [] }) {
       console.log("Order submitted with ID:", data);
       setSubmitted(true);
     } catch (err) {
-      setErrorMsg("Failed to submit order. Please try again.");
+      setErrorMsg("Failed to submit order.  try again.");
       console.error("Firestore error:", err);
     }
     setLoading(false);
