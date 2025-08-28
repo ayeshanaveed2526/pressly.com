@@ -156,10 +156,9 @@ function OrderForm({ onClose, cartItems = [] }) {
             <div>
               <label className="block mb-2 font-medium text-ink">Payment Method</label>
               <select name="payment" value={form.payment} onChange={handleChange} className="w-full px-4 py-2 rounded border border-amber-200 text-ink focus:outline-none focus:ring-2 focus:ring-[#b99a77]">
-                <option value="">Select payment</option>
+    
                 <option value="Cash on Delivery">Cash on Delivery</option>
-                <option value="Bank Transfer">Bank Transfer</option>
-                <option value="Credit/Debit Card">Credit/Debit Card</option>
+                
               </select>
               {errors.payment && <span className="text-red-600 text-sm">{errors.payment}</span>}
             </div>
