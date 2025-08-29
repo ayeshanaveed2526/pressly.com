@@ -9,7 +9,6 @@ function OrderForm({ onClose, cartItems = [] }) {
     address: "",
     phone: "",
     product: "",
-    details: "",
     payment: ""
   });
   const [submitted, setSubmitted] = useState(false);
@@ -54,7 +53,7 @@ function OrderForm({ onClose, cartItems = [] }) {
       // compute totals (use the precomputed values)
   const delivery = shippingCost;
   const total = subtotal + delivery;
-      const data= await addDoc(collection(db, "orders"), {
+  const data= await addDoc(collection(db, "orders"), {
         customer: {
           name: form.name,
           email: form.email,
@@ -63,7 +62,6 @@ function OrderForm({ onClose, cartItems = [] }) {
         },
         paymentMethod: form.payment,
         product: form.product,
-        details: form.details,
         cart: items,
         subtotal,
         delivery,
@@ -152,7 +150,6 @@ function OrderForm({ onClose, cartItems = [] }) {
             {errors.address && <span className="text-red-600 text-sm">{errors.address}</span>}
             <input name="product" type="text" required placeholder="Product/Category" value={form.product} onChange={handleChange} className="px-4 py-2 rounded border border-amber-200 text-ink focus:outline-none focus:ring-2 focus:ring-[#b99a77]" />
             {errors.product && <span className="text-red-600 text-sm">{errors.product}</span>}
-            <textarea name="details" placeholder="Order Details (e.g. sticker type, canvas name, card type, paper style)" value={form.details} onChange={handleChange} rows={3} className="px-4 py-2 rounded border border-amber-200 text-ink focus:outline-none focus:ring-2 focus:ring-[#b99a77]" />
             <div>
               <label className="block mb-2 font-medium text-ink">Payment Method</label>
               <select name="payment" value={form.payment} onChange={handleChange} className="w-full px-4 py-2 rounded border border-amber-200 text-ink focus:outline-none focus:ring-2 focus:ring-[#b99a77]">
