@@ -134,9 +134,19 @@
 	display: inline-block;
 	overflow: hidden;
 	white-space: nowrap;
-	border-right: .12em solid rgba(0,0,0,0.8);
-	/* typing runs once and retains the final state, blink continues forever */
-	animation: typing 3s steps(30,end) forwards, blink .7s step-end infinite;
+	/* typing runs once and retains the final state; caret is a separate element */
+	animation: typing 3s steps(30,end) forwards;
+}
+
+/* separate blinking caret placed after the typed text */
+.typewriter-caret {
+	display: inline-block;
+	vertical-align: text-bottom;
+	width: 2px;
+	height: 1.05em;
+	margin-left: 6px;
+	background-color: rgba(0,0,0,0.85);
+	animation: blink .7s step-end infinite;
 }
 @keyframes typing { from { width: 0 } to { width: 100% } }
 @keyframes blink { from, to { border-color: transparent } 50% { border-color: rgba(0,0,0,0.8) } }
